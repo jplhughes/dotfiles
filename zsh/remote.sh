@@ -3,10 +3,13 @@
 # env
 export PATH="$HOME/.local/bin:$PATH"
 
+# extra aliases
+alias ls='ls -hF --color' # add colors for filetype recognition
+alias deploydf="~/git/dotfiles/deploy.sh remote"
+
 # -------------------------------------------------------------------
 # speechmatics
 # -------------------------------------------------------------------
-alias ls='ls -hF --color' # add colors for filetype recognition
 
 # virtual envs
 alias veh="source /home/willw/venv_hydra/bin/activate"
