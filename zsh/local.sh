@@ -3,6 +3,7 @@
 # env
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 export PATH="$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
 
 # extra aliases
 alias deploydf="~/git/dotfiles/deploy.sh local"

@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 #-------------------------------------------------------------
 # zsh extra settings
 #-------------------------------------------------------------
@@ -18,8 +20,12 @@ export HISTFILESIZE=100000               # big big history
 unsetopt hup
 unsetopt list_beep
 skip_global_compinit=1
+COMPLETION_WAITING_DOTS="true"
 zstyle ':completion:*' hosts off
 
+# History across tmux windows
+setopt inc_append_history
+setopt share_history
 
 # ls after every cd
 function chpwd() {
@@ -33,6 +39,7 @@ function mkcd () {
   mkdir -p "$1" && cd "$1"
 }
 
+# alt arrow keys to move
 bindkey "^[[1~" beginning-of-line
 bindkey "^[[4~" end-of-line
 
