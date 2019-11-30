@@ -265,5 +265,3 @@ function mkcd () {
 
 bindkey "^[[1~" beginning-of-line
 bindkey "^[[4~" end-of-line
-
-#source /home/johnh/git/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
