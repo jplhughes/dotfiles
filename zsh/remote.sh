@@ -15,7 +15,10 @@ alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs
 
 alias dev='cd /cantab/dev/inbetweeners/hydra'
 alias data='cd /cantab/data'
-alias exp='cd /cantab/exp0/inbetweeners/hydra'
+exp () {
+  cd /cantab/exp0/inbetweeners/hydra
+  ls -tcrd johnh*
+}
 
 alias qq='qstat -f -u "*"'
 alias q='qstat'

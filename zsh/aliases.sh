@@ -9,8 +9,9 @@ alias ve="source ~/venv/bin/activate"
 alias jl="jupyter lab"
 alias spy="tail -f"
 alias c19="ssh johnh@code19.cantabresearch.com"
-alias ltb='~/git/dotfiles/scripts/local_tensorboard_launch.sh'
-alias rtb='~/git/dotfiles/scripts/remote_tensorboard_launch.sh'
+alias zshconfig="cd ~/git/dotfiles/zsh"
+alias tbl='~/git/dotfiles/scripts/local_tensorboard_launch.sh'
+alias tbr='~/git/dotfiles/scripts/remote_tensorboard_launch.sh'
 
 
 # -------------------------------------------------------------------
