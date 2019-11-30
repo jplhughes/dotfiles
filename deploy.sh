@@ -34,16 +34,16 @@ eval set -- "$PARAMS"
 
 if [ $PARAMS == "local" ]; then
     echo "deploying on local machine..."
-    echo "source $HOME/git/dotfiles/zshrc_local.sh" > $HOME/.zshrc
-    echo "source $HOME/git/dotfiles/vimrc.vim" > $HOME/.vimrc
-    echo "source $HOME/git/dotfiles/tmux.conf" > $HOME/.tmux.conf
-    # echo "path = $HOME/git/dotfiles/git.config" >> $HOME/.gitconfig
+    echo "source $HOME/git/dotfiles/zsh/zshrc_local.sh" > $HOME/.zshrc
+    echo "source $HOME/git/dotfiles/config/vimrc.vim" > $HOME/.vimrc
+    echo "source $HOME/git/dotfiles/config/tmux.conf" > $HOME/.tmux.conf
+    # echo "path = $HOME/git/dotfiles/ssh.config" >> $HOME/.ssh/config
     zsh
 elif [ $PARAMS == "remote" ]; then
     echo "deploying on remote machine..."
-    echo "source $HOME/git/dotfiles/zshrc_remote.sh" > $HOME/.zshrc
-    echo "source $HOME/git/dotfiles/vimrc.vim" > $HOME/.vimrc
-    echo "source $HOME/git/dotfiles/tmux.conf" > $HOME/.tmux.conf
+    echo "source $HOME/git/dotfiles/zsh/zshrc_remote.sh" > $HOME/.zshrc
+    echo "source $HOME/git/dotfiles/config/vimrc.vim" > $HOME/.vimrc
+    echo "source $HOME/git/dotfiles/config/tmux.conf" > $HOME/.tmux.conf
     # echo "path = $HOME/git/dotfiles/git.config" >> $HOME/.gitconfig
     zsh
 else

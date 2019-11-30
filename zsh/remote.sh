@@ -1,18 +1,30 @@
 #!/bin/zsh
 
-# -------------------------------------------------------------------
 # env
-# -------------------------------------------------------------------
 export PATH="$HOME/.local/bin:$PATH"
 
 # -------------------------------------------------------------------
-# cantab
+# speechmatics
 # -------------------------------------------------------------------
 alias ls='ls -hF --color' # add colors for filetype recognition
 
-alias cdc="cd ~/git/hydra"
+# virtual envs
+alias veh="source /home/willw/venv_hydra/bin/activate"
+alias ve2="source ~/venv2/bin/activate"
+
+# make file
+alias mc="make check"
+alias mf="make format"
+alias mtest="make test"
+alias mft="make functest"
+alias mut="make unittest"
+
+# tensorboard
+alias tbr='~/git/dotfiles/scripts/remote_tensorboard_launch.sh'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
 
+# quick navigation
+alias cdc="cd ~/git/hydra"
 alias dev='cd /cantab/dev/inbetweeners/hydra'
 alias data='cd /cantab/data'
 exp () {
@@ -20,20 +32,18 @@ exp () {
   ls -tcrd johnh*
 }
 
+# gpu
 alias qq='qstat -f -u "*"'
 alias q='qstat'
 alias qcpu='qstat -f -u "*" -q cpu.q'
 alias qgpu='qstat -f -u "*" -q gpu.q'
-alias cluster302='ssh -i ~/.ssh/sm-base.pem root@52.89.0.184'
 alias qtop='qalter -p 1024'
-
 alias gpu='qlogin -q gpu.q -now n'
 alias gpu980='qlogin -q gpu.q@@980'
 alias titanx='qlogin -q gpu.q@@titanx'
 alias nv='nvidia-smi'
 alias cuda0='export CUDA_VISIBLE_DEVICES=0'
 alias cuda1='export CUDA_VISIBLE_DEVICES=1'
-
 qcat () {
   if [ "$#" -eq 1 ]; then
     cat $(qstat -j $1 | grep log | grep std | cut -d ":" -f4)

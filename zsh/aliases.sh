@@ -8,11 +8,10 @@ alias cdg="cd ~/git"
 alias ve="source ~/venv/bin/activate"
 alias jl="jupyter lab"
 alias spy="tail -f"
+alias zrc="cd ~/git/dotfiles/zsh"
+alias dotfiles="cd ~/git/dotfiles"
 alias c19="ssh johnh@code19.cantabresearch.com"
-alias zshconfig="cd ~/git/dotfiles/zsh"
-alias tbl='~/git/dotfiles/scripts/local_tensorboard_launch.sh'
-alias tbr='~/git/dotfiles/scripts/remote_tensorboard_launch.sh'
-
+alias colo="ssh johnh@cam2c01.farm.speechmatics.io"
 
 # -------------------------------------------------------------------
 # general
@@ -54,7 +53,6 @@ alias path='echo -e ${PATH//:/\\n}'
 alias du='du -kh'
 alias df='df -kTh'
 alias ltx='pdflatex'
-alias zrc='vim ~/.zshrc'
 alias m='make'
 alias mb='make -B'
 alias usage='du -sh * 2>/dev/null | sort -rh'
@@ -102,7 +100,8 @@ alias gco="git checkout"
 alias gcb="git checkout -b"
 alias gcm="git checkout master"
 
-alias grh="git reset HEAD^"
+alias grhead="git reset HEAD^"
+alias grhard="git fetch origin && git reset --hard"
 
 alias gst="git stash"
 alias gstp="git stash pop"
@@ -124,10 +123,10 @@ alias tl="tmux list-sessions"
 alias tkill="tmux kill-server"
 alias tdel="tmux kill-session -t"
 
-
 #-------------------------------------------------------------
 # `ls` family
 #-------------------------------------------------------------
+
 alias l="ls -CF --color=auto"
 alias ll="ls -l --group-directories-first"
 alias la='ls -Al'         # show hidden files
