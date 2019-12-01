@@ -89,6 +89,7 @@ alias 9='cd -9'
 #-------------------------------------------------------------
 
 alias g="git"
+alias gcl="git clone"
 alias ga="git add"
 alias gaa="git add ."
 alias gc="git commit -m"
@@ -124,7 +125,6 @@ alias gstp="git stash pop"
 alias gsta="git stash apply"
 alias gstd="git stash drop"
 alias gstc="git stash clear"
-
 
 #-------------------------------------------------------------
 # tmux

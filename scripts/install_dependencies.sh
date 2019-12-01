@@ -9,3 +9,6 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosugges
 git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
 git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
+
+# ssh-keygen -t rsa
+# ssh-copy-id -i ~/.ssh/id_rsa.pub johnh@code19.cantabresearch.com

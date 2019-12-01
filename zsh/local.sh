@@ -12,6 +12,9 @@ alias deploydf="~/git/dotfiles/deploy.sh local"
 # speechmatics
 # -------------------------------------------------------------------
 
+# gitlab
+alias gconfig='git config user.name "John Hughes" && git config user.email "johnh@speechmatics.com"'
+
 # tensorboard
 alias tbl='~/git/dotfiles/scripts/local_tensorboard_launch.sh'
 
