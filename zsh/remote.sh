@@ -16,6 +16,7 @@ alias veh="source /home/willw/venv_hydra/bin/activate"
 alias ve2="source ~/venv2/bin/activate"
 
 # make file
+alias m='make'
 alias mc="make check"
 alias mf="make format"
 alias mtest="make test"

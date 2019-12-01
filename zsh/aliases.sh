@@ -20,15 +20,50 @@ alias colo="ssh johnh@cam2c01.farm.speechmatics.io"
 alias zshrc="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
-alias -s gz='tar -xzvf'
-alias -s bz2='tar -xjvf'
+# file and directories
 alias rm='rm -i'
+alias rmd='rm -rf'
 alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
-alias h='history | grep'
-alias j='jobs -l'
+
+# find/read files
+alias h='head'
+alias t='tail'
+alias rl="readlink -f"
+alias fd='find . -type d -name'
+alias ff='find . -type f -name'
 alias which='type -a'
+
+# storage
+alias du='du -kh' # file space
+alias df='df -kTh' # disk space
+alias usage='du -sh * 2>/dev/null | sort -rh'
+alias dus='du -sckx * | sort -nr'
+
+# processes
+alias psg='ps -ef | grep -i $1'
+alias scumbag="ps aux  --sort=-%cpu | grep -m 11 -v `whoami`"
+
+# extract
+alias tgz='tar -zxvf'
+alias tbz='tar -jxvf'
+
+# other
+alias hist='history | grep'
+alias path='echo -e ${PATH//:/\\n}'
+alias man="man -a"
+alias busy="cat /dev/urandom | hexdump -C | grep "ca fe""
+# alias j='jobs -l'
+# alias ltx='pdflatex'
+# alias x='xclip -sel clip'
+
+
+#-------------------------------------------------------------
+# cd
+#-------------------------------------------------------------
+
+alias c='cd'
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ...='cd ../../../'
@@ -48,26 +83,6 @@ alias 6='cd -6'
 alias 7='cd -7'
 alias 8='cd -8'
 alias 9='cd -9'
-
-alias path='echo -e ${PATH//:/\\n}'
-alias du='du -kh'
-alias df='df -kTh'
-alias ltx='pdflatex'
-alias m='make'
-alias mb='make -B'
-alias usage='du -sh * 2>/dev/null | sort -rh'
-alias dus='du -sckx * | sort -nr'
-alias fd='find . -type d -name'
-alias ff='find . -type f -name'
-alias tgz='tar -zxvf'
-alias tbz='tar -jxvf'
-alias psg='ps -ef | grep -i $1'
-alias man="man -a"
-alias busy="cat /dev/urandom | hexdump -C | grep "ca fe""
-alias scumbag="ps aux  --sort=-%cpu | grep -m 11 -v `whoami`"
-alias rl="readlink -f"
-alias t="tail"
-alias x='xclip -sel clip'
 
 #-------------------------------------------------------------
 # git
@@ -125,7 +140,7 @@ alias tkill="tmux kill-server"
 alias tdel="tmux kill-session -t"
 
 #-------------------------------------------------------------
-# `ls` family
+# ls
 #-------------------------------------------------------------
 
 alias l="ls -CF --color=auto"
