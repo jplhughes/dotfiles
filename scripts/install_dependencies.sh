@@ -1,6 +1,18 @@
 #!/bin/bash
 # brew cask install iterm2
-# brew install zsh
+
+if [ $# -ne 1 ];
+   then echo "Invalid number of args, expecting only 1 (linux or mac)"
+   exit 1
+fi
+
+machine=$1
+if [ $machine == "linux"]; then
+    apt-get install zsh
+elif [ $machine == "mac" ]; then
+    brew install zsh
+fi
+
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
