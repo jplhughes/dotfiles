@@ -8,7 +8,7 @@ fi
 
 machine=$1
 if [ $machine == "linux" ]; then
-    apt-get install zsh
+    sudo apt-get install zsh
 elif [ $machine == "mac" ]; then
     brew install zsh
 fi
