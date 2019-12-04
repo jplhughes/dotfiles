@@ -7,7 +7,7 @@ if [ $# -ne 1 ];
 fi
 
 machine=$1
-if [ $machine == "linux"]; then
+if [ $machine == "linux" ]; then
     apt-get install zsh
 elif [ $machine == "mac" ]; then
     brew install zsh
