@@ -12,6 +12,7 @@ alias zrc="cd ~/git/dotfiles/zsh"
 alias dot="cd ~/git/dotfiles"
 alias c19="ssh johnh@code19.cantabresearch.com"
 alias colo="ssh johnh@cam2c01.farm.speechmatics.io"
+alias mkve="virtualenv -p python3"
 
 # -------------------------------------------------------------------
 # general
