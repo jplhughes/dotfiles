@@ -39,6 +39,7 @@ exp () {
 # gpu
 alias qq='qstat -f -u "*"'
 alias q='qstat'
+alias qc='source ~/venv_dashboard/bin/activate && ~/git/dotfiles/scripts/qstat.py'
 alias qcpu='qstat -f -u "*" -q cpu.q'
 alias qgpu='qstat -f -u "*" -q gpu.q'
 alias qtop='qalter -p 1024'
