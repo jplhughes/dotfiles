@@ -11,7 +11,7 @@ alias ls='ls -hF --color' # add colors for filetype recognition
 # -------------------------------------------------------------------
 
 # jupyter lab
-alias jl="jupyter lab --no-browser --ip $(hostname)"
+alias jl="source $HOME/git/hydra/venv/bin/activate && jupyter lab --no-browser --ip $(hostname)"
 # virtual envs
 alias veh="source ~/git/hydra/venv/bin/activate"
 
@@ -24,7 +24,7 @@ alias mft="make functest"
 alias mut="make unittest"
 
 # tensorboard
-alias tbr='source \$HOME/git/hydra/venv/bin/activate && echo "tensorboard running" && tensorboard --logdir=.'
+alias tbr='source $HOME/git/hydra/venv/bin/activate && tensorboard --logdir=.'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
 
 # quick navigation
