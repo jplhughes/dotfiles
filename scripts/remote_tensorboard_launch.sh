@@ -7,6 +7,6 @@ port=6006
 if [[ $# -eq 1 ]]; then
     port=$1
 fi
-source $HOME/venv/bin/activate
+source $HOME/git/hydra/venv/bin/activate
 echo "tensorboard running"
 tensorboard --logdir=.

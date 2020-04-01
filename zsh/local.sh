@@ -25,7 +25,17 @@ pf () {
     elif [ "$#" -eq 1 ]; then
         ssh -NL localhost:${1}:localhost:${1} johnh@code19.cantabresearch.com
     elif [ "$#" -eq 2 ]; then
-        ssh -NL localhost:${1}:localhost:${1} johnh@${2}.cantabresearch.com
+	destination=${2}
+	if [[ ${2} == "codex" ]];
+            then destination=johnh@code19.cantabresearch.com
+	fi
+	if [[ ${2} == "colo" ]];
+            then destination=johnh@cam2g01.farm.speechmatics.io
+	fi
+	if [[ ${2} == "aml" ]];
+            then destination=johnh@cam2aml01.aml.speechmatics.io
+	fi
+        ssh -NL localhost:${1}:localhost:${1} $destination
     else
         echo "Usage: pf <port> <codex>" >&2
     fi

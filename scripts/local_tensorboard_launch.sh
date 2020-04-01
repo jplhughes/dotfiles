@@ -16,7 +16,7 @@ fi
 
  
 if [[ $destination == "codex" ]];
-    then destination="johnh@code19.cantabresearch.com"
+    then destination=johnh@code19.cantabresearch.com
 fi
 if [[ $destination == "sergei" ]];
     then destination=john@${MOWBRAY_IP}
@@ -24,7 +24,9 @@ fi
 if [[ $destination == "colo" ]];
     then destination=johnh@cam2g01.farm.speechmatics.io
 fi
-
+if [[ $destination == "aml" ]];
+    then destination=johnh@cam2aml01.aml.speechmatics.io
+fi
  
 
 port=6006
