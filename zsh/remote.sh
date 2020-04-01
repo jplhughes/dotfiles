@@ -24,7 +24,7 @@ alias mft="make functest"
 alias mut="make unittest"
 
 # tensorboard
-alias tbr='~/git/dotfiles/scripts/tensorboard_launch.sh'
+alias tbr='source \$HOME/git/hydra/venv/bin/activate && echo "tensorboard running" && tensorboard --logdir=.'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
 
 # quick navigation
