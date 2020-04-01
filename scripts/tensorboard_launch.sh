@@ -1,7 +1,5 @@
 #! /bin/bash -e
 
- 
-
 port=6006
 # Override port if it is given
 if [[ $# -eq 1 ]]; then
@@ -9,4 +7,4 @@ if [[ $# -eq 1 ]]; then
 fi
 source $HOME/git/hydra/venv/bin/activate
 echo "tensorboard running"
-tensorboard --logdir=.
+tensorboard --logdir=. --port=port

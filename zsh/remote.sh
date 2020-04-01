@@ -5,15 +5,15 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # extra aliases
 alias ls='ls -hF --color' # add colors for filetype recognition
-alias deploydf="~/git/dotfiles/deploy.sh remote"
 
 # -------------------------------------------------------------------
 # speechmatics
 # -------------------------------------------------------------------
 
+# jupyter lab
+alias jl="jupyter lab --no-browser --ip $(hostname)"
 # virtual envs
 alias veh="source ~/git/hydra/venv/bin/activate"
-alias ve="source ~/venv/bin/activate"
 
 # make file
 alias m='make'
@@ -24,15 +24,15 @@ alias mft="make functest"
 alias mut="make unittest"
 
 # tensorboard
-alias tbr='~/git/dotfiles/scripts/remote_tensorboard_launch.sh'
+alias tbr='~/git/dotfiles/scripts/tensorboard_launch.sh'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
 
 # quick navigation
-alias cdc="cd ~/git/hydra"
+alias cdh="cd ~/git/hydra"
 alias dev='cd /cantab/dev/inbetweeners/hydra'
 alias data='cd /cantab/data'
 exp () {
-  cd /cantab/exp0/inbetweeners/hydra
+  cd /cantab/exp0/inbetweeners
   ls -tcrd johnh*
 }
 
@@ -46,9 +46,17 @@ alias qtop='qalter -p 1024'
 alias gpu='qlogin -q gpu.q -now n'
 alias gpu980='qlogin -q gpu.q@@980'
 alias titanx='qlogin -q gpu.q@@titanx'
+alias qrl='qrsh -q gpu.q -pty no'
 alias nv='nvidia-smi'
 alias cuda0='export CUDA_VISIBLE_DEVICES=0'
 alias cuda1='export CUDA_VISIBLE_DEVICES=1'
+cuda () {
+  if [ "$#" -eq 1 ]; then
+    export CUDA_VISIBLE_DEVICES=$1
+  else
+    echo "Usage: cuda <slot>" >&2
+  fi
+}
 qcat () {
   if [ "$#" -eq 1 ]; then
     cat $(qstat -j $1 | grep log | grep std | cut -d ":" -f4)

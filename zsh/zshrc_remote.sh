@@ -6,7 +6,7 @@ clear
 export TERM="xterm-256color"
 ZSH=$HOME/.oh-my-zsh
 source ~/git/dotfiles/zsh/theme.sh
-plugins=(git gitfast pip compleat tmux docker docker-compose zsh-syntax-highlighting zsh-autosuggestions zsh-completions history-substring-search)
+plugins=(git pip compleat zsh-syntax-highlighting zsh-autosuggestions zsh-completions history-substring-search)
 autoload -U compinit && compinit
 source $ZSH/oh-my-zsh.sh
 source ~/git/dotfiles/zsh/remote.sh
