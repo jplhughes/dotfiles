@@ -24,8 +24,34 @@ alias mft="make functest"
 alias mut="make unittest"
 
 # tensorboard
-alias tbr='source $HOME/git/hydra/venv/bin/activate && tensorboard --logdir=.'
+alias tbr='source $HOME/git/hydra/venv/bin/activate && tensorboard --host=$(hostname) --logdir=.'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
+
+tblink () {
+  if [ "$#" -eq 0 ]; then
+    logdir=$(pwd)
+  else
+  # setup tensorboard directory
+    tbdir="$HOME/tb"
+    if [ -d "$tbdir" ]; then
+      
+      last=$(ls -v $tbdir | tail -1)
+      new=$((last+1))
+      logdir="$tbdir/$new"
+    else
+      logdir="$tbdir/0"
+    fi
+    mkdir -p $logdir
+    # softlink into tensorboard directory
+    for linkdir in "$@"; do
+      linkdir=$(rl $linkdir)
+      echo "linkdir: $linkdir"
+      ln -s $linkdir $logdir
+    done
+  fi
+  echo "logdir: $logdir"
+  tensorboard --host=$(hostname) --logdir=$logdir
+}
 
 # quick navigation
 alias cdh="cd ~/git/hydra"
