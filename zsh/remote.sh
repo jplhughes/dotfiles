@@ -74,7 +74,7 @@ alias qtop='qalter -p 1024'
 alias qlogin='qlogin -q gpu.q -now n'
 alias gpu980='qrsh -q gpu.q@@980 -pty no -now n'
 alias titanx='qrsh -q gpu.q@@titanx -pty no -now n'
-gpu () {
+qrl () {
   if [ "$#" -eq 1 ]; then
     qrsh -q gpu.q@"$1".cantabresearch.com -pty no -now n
   else
