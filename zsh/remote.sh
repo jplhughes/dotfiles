@@ -13,7 +13,8 @@ alias ls='ls -hF --color' # add colors for filetype recognition
 # jupyter lab
 alias jl="source $HOME/git/hydra/venv/bin/activate && jupyter lab --no-browser --ip $(hostname)"
 # virtual envs
-alias veh="source ~/git/hydra/venv/bin/activate"
+alias veh="source /cantab/dev/inbetweeners/hydra/venv_stable/bin/activate"
+alias ve="source ~/git/hydra/venv/bin/activate"
 
 # make file
 alias m='make'
@@ -69,10 +70,18 @@ alias qc='source ~/venv_dashboard/bin/activate && ~/git/dotfiles/scripts/qstat.p
 alias qcpu='qstat -f -u "*" -q cpu.q'
 alias qgpu='qstat -f -u "*" -q gpu.q'
 alias qtop='qalter -p 1024'
-alias gpu='qlogin -q gpu.q -now n'
-alias gpu980='qlogin -q gpu.q@@980'
-alias titanx='qlogin -q gpu.q@@titanx'
-alias qrl='qrsh -q gpu.q -pty no'
+
+alias qlogin='qlogin -q gpu.q -now n'
+alias gpu980='qrsh -q gpu.q@@980 -pty no -now n'
+alias titanx='qrsh -q gpu.q@@titanx -pty no -now n'
+gpu () {
+  if [ "$#" -eq 1 ]; then
+    qrsh -q gpu.q@"$1".cantabresearch.com -pty no -now n
+  else
+    qrsh -q gpu.q -pty no -now n
+  fi
+}
+
 alias nv='nvidia-smi'
 alias cuda0='export CUDA_VISIBLE_DEVICES=0'
 alias cuda1='export CUDA_VISIBLE_DEVICES=1'
