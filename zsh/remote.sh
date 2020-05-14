@@ -11,10 +11,10 @@ alias ls='ls -hF --color' # add colors for filetype recognition
 # -------------------------------------------------------------------
 
 # jupyter lab
-alias jl="source $HOME/git/hydra/venv/bin/activate && jupyter lab --no-browser --ip $(hostname)"
+alias jl="jupyter lab --no-browser --ip $(hostname)"
 # virtual envs
 alias veh="source /cantab/dev/inbetweeners/hydra/venv_stable/bin/activate"
-alias ve="source ~/git/hydra/venv/bin/activate"
+alias ve="source ~/venv/bin/activate"
 
 # make file
 alias m='make'
