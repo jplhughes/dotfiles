@@ -119,6 +119,18 @@ qdesc () {
     if [ -z "$(qstat -j $job | grep "job-array tasks")" ]; then
       echo $job $(qlog $job)
     else
+      qq_dir=$(qlog $job)
+      if [ $(echo $line | awk '{print $5}') = 'r' ]; then
+        sub_job=$(echo $line | awk '{print $10}')
+        qq_dir=$(qlog $job)
+        log_file=$(find ${qq_dir} -name "*o${job}.${sub_job}")
+        echo $job $sub_job $(grep -o -m 1 -E "expdir=[^ ]* "  $log_file | cut -d "=" -f2)
+      else
+        echo $job $qq_dir "qw"
+      fi
+    fi
+  done
+}
 
 # docker
 alias dsts='docker stack services demo'
