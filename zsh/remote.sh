@@ -92,13 +92,33 @@ cuda () {
     echo "Usage: cuda <slot>" >&2
   fi
 }
+
+qtail () {
+  tail -f $(qlog $@)
+}
+qless () {
+  less $(qlog $@)
+}
 qcat () {
+  cat $(qlog $@)
+}
+qlog () {
   if [ "$#" -eq 1 ]; then
-    cat $(qstat -j $1 | grep log | grep std | cut -d ":" -f4)
+    echo $(qstat -j $1 | grep stdout_path_list | cut -d ":" -f4) 
+  elif [ "$#" -eq 2 ]; then
+    qq_dir=$(qlog $1)
+    echo $(ls ${qq_dir}/*o${1}.${2})
   else
-    echo "Usage: qcat <jobid>" >&2
+    echo "Usage: q<command> <jobid>" >&2
+    echo "Usage: q<command> <array_jobid> <sub_jobid>" >&2
   fi
 }
+qdesc () {
+  qstat | tail -n +3 | while read line; do
+    job=$(echo $line | awk '{print $1}')
+    if [ -z "$(qstat -j $job | grep "job-array tasks")" ]; then
+      echo $job $(qlog $job)
+    else
 
 # docker
 alias dsts='docker stack services demo'
