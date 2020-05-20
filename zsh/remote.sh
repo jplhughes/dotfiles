@@ -57,9 +57,10 @@ tblink () {
 # quick navigation
 alias cdh="cd ~/git/hydra"
 alias dev='cd /cantab/dev/inbetweeners/hydra'
+alias exp='cd /cantab/dev/inbetweeners/hydra/exp'
 alias data='cd /cantab/data'
-exp () {
-  cd /cantab/exp0/inbetweeners
+exp0 () {
+  cd /cantab/exp0/inbetweeners/hydra
   ls -tcrd johnh*
 }
 

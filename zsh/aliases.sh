@@ -11,6 +11,7 @@ alias zrc="cd ~/git/dotfiles/zsh"
 alias dot="cd ~/git/dotfiles"
 alias c19="ssh johnh@code19.cantabresearch.com"
 alias colo="ssh johnh@cam2c01.farm.speechmatics.io"
+alias aml="ssh johnh@bastion.aml.speechmatics.io"
 alias mkve="virtualenv -p python3"
 
 # -------------------------------------------------------------------
@@ -154,3 +155,22 @@ alias lt='ls -ltr'        # sort by date, most recent last
 alias lm='ls -al |more'   # pipe through 'more'
 alias lr='ls -lR'         # recursive ls
 alias tree='tree -Csu'    # nice alternative to 'recursive ls'
+
+#-------------------------------------------------------------
+# chmod
+#-------------------------------------------------------------
+
+chw () {
+  if [ "$#" -eq 1 ]; then
+    chmod a+w $1
+  else
+    echo "Usage: chw <dir>" >&2
+  fi
+}
+chx () {
+  if [ "$#" -eq 1 ]; then
+    chmod a+x $1
+  else
+    echo "Usage: chx <dir>" >&2
+  fi
+}
