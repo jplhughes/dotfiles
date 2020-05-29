@@ -51,6 +51,7 @@ alias tgz='tar -zxvf'
 alias tbz='tar -jxvf'
 
 # other
+alias rs='rsync -pravhz'
 alias hist='history | grep'
 alias path='echo -e ${PATH//:/\\n}'
 alias man="man -a"
