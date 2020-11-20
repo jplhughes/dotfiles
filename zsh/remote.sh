@@ -13,8 +13,9 @@ alias ls='ls -hF --color' # add colors for filetype recognition
 # jupyter lab
 alias jl="jupyter lab --no-browser --ip $(hostname)"
 # virtual envs
-alias veh="source /cantab/dev/inbetweeners/hydra/venv_stable/bin/activate"
-alias ve="source ~/venv/bin/activate"
+alias veh="source /workspaces/hydra_venv_stable/bin/activate"
+alias pth="source /workspaces/pychain_workspace_augment/path_dev.sh"
+alias ve="source venv/bin/activate"
 
 # make file
 alias m='make'
@@ -35,7 +36,7 @@ tblink () {
   # setup tensorboard directory
     tbdir="$HOME/tb"
     if [ -d "$tbdir" ]; then
-      
+
       last=$(ls -v $tbdir | tail -1)
       new=$((last+1))
       logdir="$tbdir/$new"
@@ -55,10 +56,12 @@ tblink () {
 }
 
 # quick navigation
-alias cdh="cd ~/git/hydra"
+alias cdh='cd ~/git/hydra'
 alias dev='cd /cantab/dev/inbetweeners/hydra'
-alias exp='cd /cantab/dev/inbetweeners/hydra/exp'
-alias data='cd /cantab/data'
+alias exp='cd /exp/asr_am/johnh'
+alias hb='cd /exp/head_bench/johnh'
+alias data='cd /perish_local/data'
+alias ws='cd /workspaces/pychain_workspace_augment'
 exp0 () {
   cd /cantab/exp0/inbetweeners/hydra
   ls -tcrd johnh*
