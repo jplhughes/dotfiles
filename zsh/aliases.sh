@@ -5,7 +5,7 @@
 # -------------------------------------------------------------------
 
 alias cdg="cd ~/git"
-alias ve="source ~/venv/bin/activate"
+alias ve="source venv/bin/activate"
 alias spy="tail -f"
 alias zrc="cd ~/git/dotfiles/zsh"
 alias dot="cd ~/git/dotfiles"
@@ -13,6 +13,7 @@ alias c19="ssh johnh@code19.cantabresearch.com"
 alias colo="ssh johnh@cam2c01.farm.speechmatics.io"
 alias aml="ssh johnh@bastion.aml.speechmatics.io"
 alias mkve="virtualenv -p python3"
+alias hn="hostname"
 
 # -------------------------------------------------------------------
 # general

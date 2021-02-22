@@ -26,7 +26,8 @@ alias mft="make functest"
 alias mut="make unittest"
 
 # tensorboard
-alias tbr='source $HOME/venv_tb/bin/activate && tensorboard --host=$(hostname) --logdir=.'
+#alias tbr='source $HOME/venv_tb/bin/activate && tensorboard --host=$(hostname)  --reload_multifile true --logdir=.'
+alias tbr='singularity exec /workspaces/sif/20210213_tensorboard.sif tensorboard --host=$(hostname -f)  --reload_multifile true --logdir=.'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
 
 tblink () {
@@ -58,10 +59,11 @@ tblink () {
 # quick navigation
 alias cdh='cd ~/git/hydra'
 alias dev='cd /cantab/dev/inbetweeners/hydra'
-alias exp='cd /exp/asr_am/johnh'
-alias hb='cd /exp/head_bench/johnh'
-alias data='cd /perish_local/data'
-alias ws='cd /workspaces/pychain_workspace_augment'
+alias exp='cd /exp/johnh'
+alias data='cd /perish_aml03/data/asr'
+alias kws='cd /opt/kaldi_workspace'
+alias ws='cd /workspaces'
+alias builds='cd /perish_aml01/builds'
 exp0 () {
   cd /cantab/exp0/inbetweeners/hydra
   ls -tcrd johnh*
