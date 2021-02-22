@@ -17,13 +17,33 @@ alias veh="source /workspaces/hydra_venv_stable/bin/activate"
 alias pth="source /workspaces/pychain_workspace_augment/path_dev.sh"
 alias ve="source venv/bin/activate"
 
+alias b1="ssh beast1.aml.speechmatics.io"
+alias b2="ssh beast2.aml.speechmatics.io"
+alias b3="ssh beast3.aml.speechmatics.io"
+alias b4="ssh beast4.aml.speechmatics.io"
+
+export b1="beast1.aml.speechmatics.io"
+export b2="beast2.aml.speechmatics.io"
+export b3="beast3.aml.speechmatics.io"
+export b4="beast4.aml.speechmatics.io"
+export gb1="gpu.q@${b1}"
+export gb2="gpu.q@${b2}"
+export gb3="gpu.q@${b3}"
+export gb4="gpu.q@${b4}"
+
 # make file
 alias m='make'
 alias mc="make check"
+alias ms="make shell"
 alias mf="make format"
 alias mtest="make test"
 alias mft="make functest"
 alias mut="make unittest"
+
+# singularity
+alias buildsb="sudo singularity build --sandbox ./sandbox"
+alias runsb="sudo singularity exec ./sandbox"
+alias exportsb="export CONTAINER_IMAGE=$(readlink -f ./sandbox)"
 
 # tensorboard
 #alias tbr='source $HOME/venv_tb/bin/activate && tensorboard --host=$(hostname)  --reload_multifile true --logdir=.'
