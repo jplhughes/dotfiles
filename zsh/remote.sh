@@ -41,9 +41,11 @@ alias mft="make functest"
 alias mut="make unittest"
 
 # singularity
-alias buildsb="sudo singularity build --sandbox ./sandbox"
-alias runsb="sudo singularity exec ./sandbox"
-alias exportsb="export CONTAINER_IMAGE=$(readlink -f ./sandbox)"
+alias buildsb="sudo singularity build --sandbox /perish_aml04/johnh/sandbox"
+alias runsb="sudo singularity shell --writable --shell /bin/zsh /perish_aml04/johnh/sandbox"
+alias pipsb"sudo singularity exec --writable /perish_aml04/johnh/sandbox pip3 install"
+alias aptsb"sudo singularity exec --writable /perish_aml04/johnh/sandbox apt update && apt install"
+alias exportsb="export CONTAINER_IMAGE=$(readlink -f /perish_aml04/johnh/sandbox)"
 
 # tensorboard
 #alias tbr='source $HOME/venv_tb/bin/activate && tensorboard --host=$(hostname)  --reload_multifile true --logdir=.'
