@@ -81,16 +81,12 @@ tblink () {
 
 # quick navigation
 alias cdh='cd ~/git/hydra'
-alias dev='cd /cantab/dev/inbetweeners/hydra'
+alias cda='cd ~/git/aladdin'
 alias exp='cd /exp/johnh'
 alias data='cd /perish_aml03/data/asr'
 alias kws='cd /opt/kaldi_workspace'
-alias ws='cd /workspaces'
+alias sif='cd /workspaces/sif'
 alias builds='cd /perish_aml01/builds'
-exp0 () {
-  cd /cantab/exp0/inbetweeners/hydra
-  ls -tcrd johnh*
-}
 
 # gpu
 alias qq='qstat -q "aml*.q@*" -f -u \*'  # Display full queue
