@@ -2,7 +2,7 @@
 
 # env
 export PATH="$HOME/.local/bin:$PATH"
-export CI_TOKEN="ce9efd98bce5cbc1fc69f753432765"
+export CI_TOKEN="6685acf408bb0f1eb7a87b0b931c49"
 
 # extra aliases
 alias ls='ls -hF --color' # add colors for filetype recognition
@@ -15,7 +15,6 @@ alias ls='ls -hF --color' # add colors for filetype recognition
 alias jl="jupyter lab --no-browser --ip $(hostname)"
 # virtual envs
 alias veh="source /workspaces/hydra_venv_stable/bin/activate"
-alias pth="source /workspaces/pychain_workspace_augment/path_dev.sh"
 alias ve="source venv/bin/activate"
 
 alias b1="ssh beast1.aml.speechmatics.io"
@@ -36,6 +35,7 @@ export gb4="gpu.q@${b4}"
 alias m='make'
 alias mc="make check"
 alias ms="make shell"
+alias me="make env"
 alias mf="make format"
 alias mtest="make test"
 alias mft="make functest"
@@ -80,13 +80,17 @@ tblink () {
 }
 
 # quick navigation
+alias a='cd ~/git/aladdin'
+alias c='cd'
 alias cdh='cd ~/git/hydra'
 alias cda='cd ~/git/aladdin'
 alias exp='cd /exp/johnh'
 alias data='cd /perish_aml03/data/asr'
+alias lm='cd /perish_aml03/data/lm'
+alias am='cd /perish_aml03/data/am'
 alias kws='cd /opt/kaldi_workspace'
 alias sif='cd /workspaces/sif'
-alias builds='cd /perish_aml01/builds'
+alias dev='cd /perish_aml03/johnh'
 
 # gpu
 alias qq='qstat -q "aml*.q@*" -f -u \*'  # Display full queue
@@ -119,6 +123,11 @@ cuda () {
     echo "Usage: cuda <slot>" >&2
   fi
 }
+
+# gaurd against accidently using gpus
+if [ -z $CUDA_VISIBLE_DEVICES ]; then
+    export CUDA_VISIBLE_DEVICES=
+fi
 
 qtail () {
   tail -f $(qlog $@)
