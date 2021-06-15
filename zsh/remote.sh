@@ -101,7 +101,7 @@ alias q='qstat'
 alias qc='source ~/venv_dashboard/bin/activate && ~/git/dotfiles/scripts/qstat.py'
 alias qtop='qalter -p 1024'
 
-qlogin () {
+qlgn () {
   echo "$#"
   if [ "$#" -eq 1 ]; then
     qlogin -now n -pe smp $1 -q aml-gpu.q -l gpu=$1 -pty y -N D_johnh
