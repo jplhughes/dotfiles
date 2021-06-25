@@ -106,9 +106,9 @@ alias qtop='qalter -p 1024'
 qlgn () {
   echo "$#"
   if [ "$#" -eq 1 ]; then
-    qlogin -now n -pe smp $1 -q aml-gpu.q -l gpu=$1 -pty y -N D_johnh
+    qlogin -now n -pe smp $1 -q aml-gpu.q -l gpu=$1 -N D_johnh
   elif [ "$#" -eq 2 ]; then
-    qlogin -now n -pe smp $1 -q $2 -l gpu=$1 -pty y -N D_johnh
+    qlogin -now n -pe smp $1 -q $2 -l gpu=$1 -N D_johnh
   else
     echo "Usage: qlogin <num_gpus>" >&2
     echo "Usage: qlogin <num_gpus> <queue>" >&2
