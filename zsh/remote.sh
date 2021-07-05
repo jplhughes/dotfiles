@@ -126,6 +126,8 @@ cuda () {
   fi
 }
 
+function qrecycle() { [ ! -z $SINGULARITY_CONTAINER ] && ssh localhost "qrecycle $@" || command qrecycle "$@" ;}
+function qupdate() { [ ! -z $SINGULARITY_CONTAINER ] && ssh localhost "qupdate" || command qupdate ;}
 # gaurd against accidently using gpus
 if [ -z $CUDA_VISIBLE_DEVICES ]; then
     export CUDA_VISIBLE_DEVICES=
