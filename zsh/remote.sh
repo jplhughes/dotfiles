@@ -49,8 +49,7 @@ alias aptsb="sudo singularity exec --writable /perish_aml04/johnh/sandbox apt up
 alias exportsb="export CONTAINER_IMAGE=$(readlink -f /perish_aml04/johnh/sandbox)"
 
 # tensorboard
-#alias tbr='source $HOME/venv_tb/bin/activate && tensorboard --host=$(hostname)  --reload_multifile true --logdir=.'
-alias tbr='singularity exec /workspaces/sif/20210213_tensorboard.sif tensorboard --host=$(hostname -f)  --reload_multifile true --logdir=.'
+alias tb='singularity exec oras://singularity-master.artifacts.speechmatics.io/tensorboard:20210213 tensorboard --host=$(hostname -f)  --reload_multifile true --logdir=.'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
 
 tblink () {
