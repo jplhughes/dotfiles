@@ -3,6 +3,7 @@
 # env
 export PATH="$HOME/.local/bin:$PATH"
 export CI_TOKEN="6685acf408bb0f1eb7a87b0b931c49"
+export PUBLISHER_TOKEN="4dd8710146f096f90121530d36892d"
 
 # extra aliases
 alias ls='ls -hF --color' # add colors for filetype recognition
@@ -12,7 +13,7 @@ alias ls='ls -hF --color' # add colors for filetype recognition
 # -------------------------------------------------------------------
 
 # jupyter lab
-alias jl="jupyter lab --no-browser --ip $(hostname)"
+alias jl="jupyter lab --no-browser --ip johnh.dev-vms.speechmatics.io"
 # virtual envs
 alias veh="source /workspaces/hydra_venv_stable/bin/activate"
 alias ve="source venv/bin/activate"
@@ -49,7 +50,7 @@ alias aptsb="sudo singularity exec --writable /perish_aml04/johnh/sandbox apt up
 alias exportsb="export CONTAINER_IMAGE=$(readlink -f /perish_aml04/johnh/sandbox)"
 
 # tensorboard
-alias tb='singularity exec oras://singularity-master.artifacts.speechmatics.io/tensorboard:20210213 tensorboard --host=$(hostname -f)  --reload_multifile true --logdir=.'
+alias tb='singularity exec -B $PWD oras://singularity-master.artifacts.speechmatics.io/tensorboard:2.6.0a20210704 tensorboard --load_fast true --host=$(hostname -f)  --reload_multifile true --logdir=$PWD'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
 
 tblink () {
