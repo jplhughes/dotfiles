@@ -15,22 +15,27 @@ alias ls='ls -hF --color' # add colors for filetype recognition
 # jupyter lab
 alias jl="jupyter lab --no-browser --ip johnh.dev-vms.speechmatics.io"
 # virtual envs
-alias veh="source /workspaces/hydra_venv_stable/bin/activate"
 alias ve="source venv/bin/activate"
 
 alias b1="ssh beast1.aml.speechmatics.io"
 alias b2="ssh beast2.aml.speechmatics.io"
 alias b3="ssh beast3.aml.speechmatics.io"
 alias b4="ssh beast4.aml.speechmatics.io"
+alias b5="ssh beast5.aml.speechmatics.io"
+alias b6="ssh beast6.aml.speechmatics.io"
 
 export b1="beast1.aml.speechmatics.io"
 export b2="beast2.aml.speechmatics.io"
 export b3="beast3.aml.speechmatics.io"
 export b4="beast4.aml.speechmatics.io"
+export b5="beast5.aml.speechmatics.io"
+export b6="beast6.aml.speechmatics.io"
 export gb1="gpu.q@${b1}"
 export gb2="gpu.q@${b2}"
 export gb3="gpu.q@${b3}"
 export gb4="gpu.q@${b4}"
+export gb5="gpu.q@${b5}"
+export gb6="gpu.q@${b6}"
 
 # make file
 alias m='make'
@@ -81,18 +86,18 @@ tblink () {
 
 # quick navigation
 alias a='cd ~/git/aladdin'
+alias a2='cd ~/git/aladdin2'
+alias a3='cd ~/git/aladdin3'
 alias c='cd'
-alias cdh='cd ~/git/hydra'
 alias cda='cd ~/git/aladdin'
 alias exp='cd /exp/johnh'
-alias data='cd /perish_aml03/data/asr'
-alias lm='cd /perish_aml03/data/lm'
-alias am='cd /perish_aml03/data/am'
-alias dg='cd /perish_aml03/data/decode_graphs'
-alias np='cd /perish_aml03/data/neural_punctuation'
+alias data='cd /data/artefacts'
+alias lm='cd /data/artefacts/lm'
+alias am='cd /data/artefacts/am'
+alias dg='cd /data/artefacts/decode_graph'
+alias np='cd /data/artefacts/neural_punctuation'
 alias kws='cd /opt/kaldi_workspace'
-alias sif='cd /workspaces/sif'
-alias dev='cd /perish_aml03/johnh'
+alias sif='cd /env'
 
 # gpu
 alias qq='qstat -q "aml*.q@*" -f -u \*'  # Display full queue
@@ -102,6 +107,15 @@ alias cq='qstat -q "aml-cpu.q@gpu*" -f -u \*'  # Display just the cpu queues
 alias q='qstat'
 alias qc='source ~/venv_dashboard/bin/activate && ~/git/dotfiles/scripts/qstat.py'
 alias qtop='qalter -p 1024'
+qwtop () {
+  for id in $(qq | grep johnh | grep qw | awk '{print $1}'); do
+    qalter -p 1024 $id
+  done
+}
+# Useful for finding error from an array job when you just get 
+find_error () {
+  grep "status" $1/*.log | grep -v "status 0"
+}
 
 qlgn () {
   echo "$#"
