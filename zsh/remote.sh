@@ -58,6 +58,13 @@ alias exportsb="export CONTAINER_IMAGE=$(readlink -f /perish_aml04/johnh/sandbox
 alias tb='singularity exec -B $PWD oras://singularity-master.artifacts.speechmatics.io/tensorboard:2.6.0a20210704 tensorboard --load_fast true --host=$(hostname -f)  --reload_multifile true --logdir=$PWD'
 alias tbkill="ps aux | grep tensorboard | grep johnh | awk '{print \$2}' | xargs kill"
 
+# Parquet printing utilities
+PARQUET_ENV_ERROR_MESSAGE="ERROR: Open a singularity environment before using pcat, pless, phead or ptail"
+alias pcat="[ -z '$SINGULARITY_CONTAINER' ] && echo $PARQUET_ENV_ERROR_MESSAGE || python $CODE_DIR/aladdin/utils/parquet_text_printer.py"
+alias phead="[ -z '$SINGULARITY_CONTAINER' ] && echo $PARQUET_ENV_ERROR_MESSAGE || python $CODE_DIR/aladdin/utils/parquet_text_printer.py --mode head"
+alias ptail="[ -z '$SINGULARITY_CONTAINER' ] && echo $PARQUET_ENV_ERROR_MESSAGE || python $CODE_DIR/aladdin/utils/parquet_text_printer.py --mode tail"
+function pless () { pcat $@ | less; }
+
 tblink () {
   if [ "$#" -eq 0 ]; then
     logdir=$(pwd)
