@@ -121,7 +121,7 @@ qwtop () {
 }
 # Useful for finding error from an array job when you just get 
 find_error () {
-  grep "status" $1/*.log | grep -v "status 0"
+  for log in $1/*.log; do result=$(grep "status" $log | tail -n1 | grep -v "status 0") && [ ! -z "$result" ] && echo $log; done
 }
 
 qlgn () {
