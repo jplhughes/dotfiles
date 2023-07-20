@@ -1,29 +1,19 @@
-#!/bin/zsh
-
 # -------------------------------------------------------------------
 # personal
 # -------------------------------------------------------------------
 
 alias cdg="cd ~/git"
-alias ve="source venv/bin/activate"
-alias spy="tail -f"
-alias zrc="cd ~/git/dotfiles/zsh"
-alias dot="cd ~/git/dotfiles"
-alias c19="ssh johnh@code19.cantabresearch.com"
-alias colo="ssh johnh@cam2c01.farm.speechmatics.io"
-alias aml="ssh johnh@bastion.aml.speechmatics.io"
-alias mkve="virtualenv -p python3"
-alias hn="hostname"
+alias zrc="cd $DOT_DIR/zsh"
+alias dot="cd $DOT_DIR"
+alias jp="jupyter lab"
 
 # -------------------------------------------------------------------
 # general
 # -------------------------------------------------------------------
 
-alias zshrc="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
+alias cl="clear"
 
 # file and directories
-alias rm='rm -i'
 alias rmd='rm -rf'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -35,33 +25,13 @@ alias t='tail'
 alias rl="readlink -f"
 alias fd='find . -type d -name'
 alias ff='find . -type f -name'
-alias which='type -a'
 
 # storage
 alias du='du -kh' # file space
 alias df='df -kTh' # disk space
 alias usage='du -sh * 2>/dev/null | sort -rh'
 alias dus='du -sckx * | sort -nr'
-
-# processes
-alias psg='ps -ef | grep -i $1'
-alias scumbag="ps aux  --sort=-%cpu | grep -m 11 -v `whoami`"
-
-# extract
-alias tgz='tar -zxvf'
-alias tbz='tar -jxvf'
-
-# other
-alias rs='rsync -pravhz'
-alias hist='history | grep'
-alias path='echo -e ${PATH//:/\\n}'
-alias man="man -a"
-alias busy="cat /dev/urandom | hexdump -C | grep "ca fe""
-# alias j='jobs -l'
-# alias ltx='pdflatex'
-# alias x='xclip -sel clip'
-
-
+#
 #-------------------------------------------------------------
 # cd
 #-------------------------------------------------------------
@@ -69,9 +39,9 @@ alias busy="cat /dev/urandom | hexdump -C | grep "ca fe""
 alias c='cd'
 alias ..='cd ..'
 alias ...='cd ../../'
-alias ...='cd ../../../'
-alias ....='cd ../../../../'
-alias .....='cd ../../../../'
+alias ....='cd ../../../'
+alias .2='cd ../../'
+alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
 alias /='cd /'
@@ -87,6 +57,7 @@ alias 7='cd -7'
 alias 8='cd -8'
 alias 9='cd -9'
 
+
 #-------------------------------------------------------------
 # git
 #-------------------------------------------------------------
@@ -95,11 +66,10 @@ alias g="git"
 alias gcl="git clone"
 alias ga="git add"
 alias gaa="git add ."
+alias gau="git add -u"
 alias gc="git commit -m"
 alias gp="git push"
 alias gpf="git push -f"
-alias gpo="git push origin $(current_branch)"
-alias gpp='git push --set-upstream origin $(current_branch)'
 
 alias gg='git gui'
 alias glog='git log --oneline --all --graph --decorate'
@@ -114,6 +84,7 @@ alias grbs="git rebase --skip"
 alias grba="git rebase --abort"
 
 alias gd="git diff"
+alias gdt="git difftool"
 alias gs="git status"
 
 alias gco="git checkout"
@@ -128,6 +99,9 @@ alias gstp="git stash pop"
 alias gsta="git stash apply"
 alias gstd="git stash drop"
 alias gstc="git stash clear"
+
+alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
+alias gpsup='git push --set-upstream origin $(git_current_branch)'
 
 #-------------------------------------------------------------
 # tmux
@@ -154,7 +128,7 @@ alias lk='ls -lSr'        # sort by size, biggest last
 alias lc='ls -ltcr'       # sort by and show change time, most recent last
 alias lu='ls -ltur'       # sort by and show access time, most recent last
 alias lt='ls -ltr'        # sort by date, most recent last
-alias lsm='ls -al |more'  # pipe through 'more'
+alias lm='ls -al |more'   # pipe through 'more'
 alias lr='ls -lR'         # recursive ls
 alias tree='tree -Csu'    # nice alternative to 'recursive ls'
 
