@@ -1,0 +1,157 @@
+#!/bin/bash
+
+USAGE=$(cat <<-END
+Usage: tsesh <PATH>
+
+Tmux session switcher, if a PATH argument is provided will either switch to or 
+start a new session named after the basename of that path and in that location.
+If no PATH is provided a fzf window will be presented from common options.
+
+OPTIONS:
+    --popup [use if called from a tmux popup window, changes some fzf options]
+END
+)
+POSITIONAL_ARGS=()
+while (( "$#" )); do
+    case "$1" in
+        -h|--help)
+            echo "$USAGE" && exit 1 ;;
+        --popup)
+            POPUP=true && shift ;;
+        --activate_sif)
+            activate_sif=true && shift ;;
+        --) # end argument parsing
+            shift && break ;;
+        -*|--*=) # unsupported flags
+            echo "Error: Unsupported flag $1" >&2 && exit 1 ;;
+        *)
+            POSITIONAL_ARGS+=("$1") # save positional arg
+            shift ;;
+    esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
+
+# Is tmux running and are we inside a tmux session
+if tmux list-sessions >/dev/null 2>&1; then
+    is_running="true"
+else
+    is_running="false"
+fi
+
+if [ -z "$TMUX" ] ; then
+    is_inside="false"
+else
+    is_inside="true"
+fi
+
+# Selection using fzf ---
+
+find_directories(){
+    # Responsible for chosing which directories to display
+    if [ $LOC == "remote" ]; then
+        # echo "$HOME/tb"
+        # echo "$HOME/git/dotfiles"
+        # echo "$HOME/git/notebooks"
+        possible_options+=" $HOME/git"
+        possible_options+=" $HOME/git/aladdin"
+        find  $possible_options -mindepth 1 -maxdepth 1 -type d -not -path '*/.*';
+    else
+        possible_options+=" $HOME/git"
+        find  $possible_options -mindepth 1 -maxdepth 1 -type d -not -path '*/.*';
+    fi
+}
+
+dir2name(){
+    # Set of rules to transform directories into sesh_names
+    name="$1"
+    sesh_name=$(basename "$name")
+    if [[ $name == "/exp/$(whoami)" ]] ; then
+        sesh_name="exp"
+    elif [[ $name == *"/git/aladdin/"* ]] ; then
+        sesh_name="aladdin-$sesh_name"
+    fi
+    echo "$sesh_name"
+}
+
+tabulate() {
+    # Reads a list of directories from find command and processes them to 
+    # a table for fzf to display, it also prepends all the running tmux sessions
+    # to the list so they can also be selected, ouputs a colored table
+    if [[ $is_inside == "true" ]]; then
+        current_session=$(tmux display-message -p '#S')
+    fi
+    printf "\x1b[1mSession Directory Status\x1b[0m\n"  #Headings
+    {
+        for name in $(tmux list-sessions | awk '{print $1}' | sed 's/:$//'); do
+            status="\x1b[32mrunning\x1b[0m"
+            line="-"
+            if [[ ! $name == $current_session ]]; then
+                printf "\x1b[33m$name \x1b[34m$line\x1b[0m $status\n"
+            fi
+        done
+        while IFS=$'\n' read -r line; do
+            name="$(dir2name $line)"
+            if ! tmux has-session -t="$name" 2> /dev/null ; then
+                # Don't process running ones
+                status="create?"
+                printf "\x1b[33m$name \x1b[34m$line\x1b[0m $status\n"
+            fi
+        done | sort -k1,1
+    }
+}
+
+
+# This section gets the selected and sesh_name from cmd line of from fzf if no cmd line args are provided
+if [[ $# -eq 1 ]]; then
+    selected=$1
+    sesh_name=$(basename $selected)
+    if [[ ! -d $selected ]]; then
+        selected=$HOME
+    fi
+else
+    fzf_bin="fzf"
+    fzf_args="--header-lines=1 --ansi"
+    if [[ ! -z $POPUP  && $TERM_PROGRAM == "tmux" ]] ; then
+        fzf_bin="fzf-tmux -p 50%,50%"
+        fzf_args+=" --border=none --height=100%"
+    fi
+    selected=$(find_directories | tabulate | column -t -s' '| sed '1s/^/  /' | $fzf_bin $fzf_args )
+    sesh_name=$(echo $selected | awk '{ print $1 }')
+    selected=$(echo $selected | awk '{ print $2 }')
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+# Session switching ---
+
+# Make shell if a GLOBAL_SIF file exists at selected 
+args=""
+if [[ ! -z $activate_sif ]]; then
+    if [[ -f $selected/env/GLOBAL_SIF  ]] ; then
+        args="make shell 2> /dev/null"
+    fi
+fi
+
+
+# If tmux is not running at all
+if [[ $is_inside == "false" ]] && [[ -z $is_running ]]; then
+    tmux new-session -s $sesh_name -c $selected $args
+    exit 0
+fi
+
+# If tmux is running but does not have a session with that name
+# create new session but dont attach
+if ! tmux has-session -t=$sesh_name 2> /dev/null; then
+    tmux new-session -ds $sesh_name -c $selected $args
+fi
+
+if [[ $is_inside == "true" ]]; then
+    # Switiching from one session to another when already inside tmux
+    tmux switch-client -t $sesh_name
+else
+    # If tmux is running, has a session with that name but we are not currently attached
+    tmux attach -t $sesh_name
+fi

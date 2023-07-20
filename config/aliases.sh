@@ -31,6 +31,15 @@ alias du='du -kh' # file space
 alias df='df -kTh' # disk space
 alias usage='du -sh * 2>/dev/null | sort -rh'
 alias dus='du -sckx * | sort -nr'
+
+# add to path
+function add_to_path() {
+    p=$1
+    if [[ "$PATH" != *"$p"* ]]; then
+      export PATH="$p:$PATH"
+    fi
+}
+
 #
 #-------------------------------------------------------------
 # cd

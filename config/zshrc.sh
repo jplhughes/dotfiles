@@ -1,5 +1,5 @@
 CONFIG_DIR=$(dirname $(realpath ${(%):-%x}))
-DOT_DIR=$CONFIG_DIR/../
+DOT_DIR=$CONFIG_DIR/..
 
 # Instant prompt
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -17,3 +17,5 @@ source $ZSH/oh-my-zsh.sh
 source $CONFIG_DIR/aliases.sh
 source $CONFIG_DIR/p10k.zsh
 source $CONFIG_DIR/extras.sh
+
+add_to_path "${DOT_DIR}/custom_bins"
