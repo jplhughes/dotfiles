@@ -6,6 +6,7 @@ alias cdg="cd ~/git"
 alias zrc="cd $DOT_DIR/zsh"
 alias dot="cd $DOT_DIR"
 alias jp="jupyter lab"
+alias hn="hostname"
 
 # -------------------------------------------------------------------
 # general
@@ -14,6 +15,7 @@ alias jp="jupyter lab"
 alias cl="clear"
 
 # file and directories
+alias rm='rm -i'
 alias rmd='rm -rf'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -25,6 +27,7 @@ alias t='tail'
 # alias rl="readlink -f"
 alias fd='find . -type d -name'
 alias ff='find . -type f -name'
+alias which='type -a'
 
 # storage
 alias du='du -kh' # file space
@@ -79,6 +82,8 @@ alias gau="git add -u"
 alias gc="git commit -m"
 alias gp="git push"
 alias gpf="git push -f"
+alias gpo="git push origin $(current_branch)"
+alias gpp='git push --set-upstream origin $(current_branch)'
 
 alias gg='git gui'
 alias glog='git log --oneline --all --graph --decorate'
