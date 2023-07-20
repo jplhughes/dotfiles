@@ -83,7 +83,7 @@ alias gc="git commit -m"
 alias gp="git push"
 alias gpf="git push -f"
 alias gpo="git push origin $(current_branch)"
-alias gpp='git push --set-upstream origin $(current_branch)'
+alias gpp="git push --set-upstream origin $(current_branch)"
 
 alias gg='git gui'
 alias glog='git log --oneline --all --graph --decorate'
