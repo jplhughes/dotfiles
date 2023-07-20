@@ -1,56 +1,51 @@
 #!/bin/bash
+set -euo pipefail
+USAGE=$(cat <<-END
+    Usage: ./deploy.sh [OPTIONS], eg. ./deploy.sh --local --vim
+    Creates ~/.zshrc and ~/.tmux.conf with location
+    specific config
 
-USAGE="Usage: ./deploy.sh local or ./deploy.sh remote"
-if [ $# -eq 0 ]
-  then
-    echo "Error: No flags provided"
-    echo $USAGE
-    exit 1
-fi
+    OPTIONS:
+        --local                 deploy local config only, only common aliases are sourced
+        --vim                   deploy very simple vimrc config 
+END
+)
 
-PARAMS=""
+export DOT_DIR=$(dirname $(realpath $0))
+
+LOC="remote"
+VIM="false"
 while (( "$#" )); do
-  case "$1" in
-    -h|--help)
-      echo $USAGE
-      exit
-      ;;
-    --) # end argument parsing
-      shift
-      break
-      ;;
-    -*|--*=) # unsupported flags
-      echo "Error: Unsupported flag $1" >&2
-      exit 1
-      ;;
-    *) # preserve positional arguments
-      PARAMS="$PARAMS $1"
-      shift
-      ;;
-  esac
+    case "$1" in
+        -h|--help)
+            echo "$USAGE" && exit 1 ;;
+        --local)
+            LOC="local" && shift ;;
+        --vim)
+            VIM="true" && shift ;;
+        --) # end argument parsing
+            shift && break ;;
+        -*|--*=) # unsupported flags
+            echo "Error: Unsupported flag $1" >&2 && exit 1 ;;
+    esac
 done
-# set positional arguments in their proper place
-eval set -- "$PARAMS"
 
-if [ $PARAMS == "local" ]; then
-    echo "deploying on local machine..."
-    echo "source $HOME/git/dotfiles/zsh/zshrc_local.sh" > $HOME/.zshrc
-    echo "source $HOME/git/dotfiles/config/vimrc.vim" > $HOME/.vimrc
-    echo "source $HOME/git/dotfiles/config/tmux.conf" > $HOME/.tmux.conf
-    # echo "path = $HOME/git/dotfiles/ssh.config" >> $HOME/.ssh/config
-    zsh
-elif [ $PARAMS == "remote" ]; then
-    echo "deploying on remote machine..."
-    echo "source $HOME/git/dotfiles/zsh/zshrc_remote.sh" > $HOME/.zshrc
-    echo "source $HOME/git/dotfiles/config/vimrc.vim" > $HOME/.vimrc
-    echo "source $HOME/git/dotfiles/config/tmux.conf" > $HOME/.tmux.conf
-    # echo "path = $HOME/git/dotfiles/git.config" >> $HOME/.gitconfig
-    zsh
-else
-    echo "Error: Unsupported flags provided"
-    echo $USAGE
-    exit 1
+
+echo "deploying on $LOC machine..."
+
+# Tmux setup
+echo "source $DOT_DIR/config/tmux.conf" > $HOME/.tmux.conf
+
+# Vimrc
+if [[ $VIM == "true" ]]; then
+    echo "deploying .vimrc"
+    echo "source $DOT_DIR/config/vimrc" > $HOME/.vimrc
 fi
 
+# zshrc setup
+echo "source $DOT_DIR/config/zshrc.sh" > $HOME/.zshrc
+# conifg/aliases_speechmatics.sh adds remote specific aliases and cmds
+[ $LOC = 'remote' ] &&  echo \
+    "source $DOT_DIR/config/aliases_speechmatics.sh" >> $HOME/.zshrc
 
-
+zsh
