@@ -52,6 +52,8 @@ elif [ $machine == "Mac" ]; then
     DOT_DIR=$(dirname $(realpath $0))
     [ $zsh == true ] && brew install zsh
     [ $tmux == true ] && brew install tmux
+    defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+    defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 fi
 
 # Setting up oh my zsh and oh my zsh plugins
