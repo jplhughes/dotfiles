@@ -54,6 +54,7 @@ elif [ $machine == "Mac" ]; then
     [ $tmux == true ] && brew install tmux
     defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
     defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+    defaults write -g com.apple.mouse.scaling 5.0
 fi
 
 # Setting up oh my zsh and oh my zsh plugins
