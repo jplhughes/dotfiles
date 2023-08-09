@@ -20,3 +20,4 @@ source $CONFIG_DIR/extras.sh
 source $CONFIG_DIR/key_bindings.sh
 
 add_to_path "${DOT_DIR}/custom_bins"
+cat $CONFIG_DIR/start.txt
