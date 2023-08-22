@@ -6,7 +6,7 @@ USAGE=$(cat <<-END
 
     OPTIONS:
         --tmux       install tmux
-        --zsh        install zsh 
+        --zsh        install zsh
 
     If OPTIONS are passed they will be installed
     with apt if on linux or brew if on OSX
@@ -44,7 +44,7 @@ esac
 if [ $machine == "Linux" ]; then
     DOT_DIR=$(dirname $(realpath $0))
     [ $zsh == true ] && sudo apt-get install zsh
-    [ $tmux == true ] && sudo apt-get install tmux 
+    [ $tmux == true ] && sudo apt-get install tmux
 
 # Installing on mac with homebrew
 elif [ $machine == "Mac" ]; then
@@ -55,6 +55,7 @@ elif [ $machine == "Mac" ]; then
     defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
     defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
     defaults write -g com.apple.mouse.scaling 5.0
+    defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 fi
 
 # Setting up oh my zsh and oh my zsh plugins
@@ -68,21 +69,21 @@ else
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
     git clone https://github.com/romkatv/powerlevel10k.git \
-        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k 
+        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
 
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting 
+        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
     git clone https://github.com/zsh-users/zsh-autosuggestions \
-        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions 
+        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
     git clone https://github.com/zsh-users/zsh-completions \
-        ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions 
+        ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 
     git clone https://github.com/zsh-users/zsh-history-substring-search \
-        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search 
+        ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
     git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
-    
+
     echo " --------- INSTALLED SUCCESSFULLY ✅ ----------- "
     echo " --------- NOW RUN ./deploy.sh [OPTION] -------- "
 fi
