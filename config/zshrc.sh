@@ -19,5 +19,7 @@ source $CONFIG_DIR/p10k.zsh
 source $CONFIG_DIR/extras.sh
 source $CONFIG_DIR/key_bindings.sh
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 add_to_path "${DOT_DIR}/custom_bins"
 cat $CONFIG_DIR/start.txt
