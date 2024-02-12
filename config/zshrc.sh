@@ -23,3 +23,7 @@ source $CONFIG_DIR/key_bindings.sh
 
 add_to_path "${DOT_DIR}/custom_bins"
 cat $CONFIG_DIR/start.txt
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
