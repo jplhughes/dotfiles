@@ -43,6 +43,12 @@ if [ -d "$HOME/.local/bin/micromamba" ]; then
   unset __mamba_setup
 fi
 
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi
+
 export ASK_SH_OPENAI_API_KEY=$(cat $HOME/.openai_api_key)
 eval "$(ask-sh --init)"
 
