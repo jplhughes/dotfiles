@@ -43,12 +43,30 @@ esac
 # Installing on linux with apt
 if [ $machine == "Linux" ]; then
     DOT_DIR=$(dirname $(realpath $0))
+    sudo apt-get update
     [ $zsh == true ] && sudo apt-get install zsh
     [ $tmux == true ] && sudo apt-get install tmux
+    sudo apt-get install ripgrep
+
+    curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash
+    brew install dust jless
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    . "$HOME/.cargo/env" 
+    cargo install code2prompt
+    brew install peco
+
 
 # Installing on mac with homebrew
 elif [ $machine == "Mac" ]; then
     brew install coreutils  # Mac won't have realpath before coreutils installed
+    brew install ripgrep dust jless
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    . "$HOME/.cargo/env" 
+    cargo install code2prompt
+    brew install peco
+
     DOT_DIR=$(dirname $(realpath $0))
     [ $zsh == true ] && brew install zsh
     [ $tmux == true ] && brew install tmux
@@ -86,6 +104,8 @@ else
 
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
+
+     NO_ASK_OPENAI_API_KEY=1 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/hmirin/ask.sh/main/install.sh)"
 
     echo " --------- INSTALLED SUCCESSFULLY ✅ ----------- "
     echo " --------- NOW RUN ./deploy.sh [OPTION] -------- "

@@ -20,22 +20,30 @@ source $CONFIG_DIR/extras.sh
 source $CONFIG_DIR/key_bindings.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+. "$HOME/.cargo/env" 
 
 add_to_path "${DOT_DIR}/custom_bins"
-cat $CONFIG_DIR/start.txt
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv >/dev/null; then
+if [ -d "$HOME/.pyenv" ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
 fi
 
-export MAMBA_EXE='/home/johnh/.local/bin/micromamba';
-export MAMBA_ROOT_PREFIX='~/micromamba';
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+
+if [ -d "$HOME/.local/bin/micromamba" ]; then
+  export MAMBA_EXE="$HOME/.local/bin/micromamba"
+  export MAMBA_ROOT_PREFIX="$HOME/micromamba"
+  __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__mamba_setup"
+  else
+      alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+  fi
+  unset __mamba_setup
 fi
-unset __mamba_setup
+
+export ASK_SH_OPENAI_API_KEY=$(cat $HOME/.openai_api_key)
+eval "$(ask-sh --init)"
+
+cat $CONFIG_DIR/start.txt
