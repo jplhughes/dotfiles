@@ -50,6 +50,7 @@ if [ -d "$FNM_PATH" ]; then
 fi
 
 export ASK_SH_OPENAI_API_KEY=$(cat $HOME/.openai_api_key)
+export ASK_SH_OPENAI_MODEL=gpt-4o-mini
 eval "$(ask-sh --init)"
 
 cat $CONFIG_DIR/start.txt
