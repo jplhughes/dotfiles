@@ -16,6 +16,7 @@ END
 
 zsh=false
 tmux=false
+extras=false
 force=false
 while (( "$#" )); do
     case "$1" in
@@ -46,38 +47,38 @@ esac
 # Installing on linux with apt
 if [ $machine == "Linux" ]; then
     DOT_DIR=$(dirname $(realpath $0))
-    sudo apt-get update
-    [ $zsh == true ] && sudo apt-get install zsh
-    [ $tmux == true ] && sudo apt-get install tmux
+    sudo apt-get update -y
+    [ $zsh == true ] && sudo apt-get install -y zsh
+    [ $tmux == true ] && sudo apt-get install -y tmux
     
     if [ $extras == true ]; then
-        sudo apt-get install ripgrep
+        sudo apt-get install -y ripgrep
 
-        curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash
-        brew install dust jless
+        yes | curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash
+        yes | brew install dust jless
 
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        yes | curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
         . "$HOME/.cargo/env" 
-        cargo install code2prompt
-        brew install peco
+        yes | cargo install code2prompt
+        yes | brew install peco
     fi
 
 # Installing on mac with homebrew
 elif [ $machine == "Mac" ]; then
-    brew install coreutils  # Mac won't have realpath before coreutils installed
+    yes | brew install coreutils  # Mac won't have realpath before coreutils installed
 
     if [ $extras == true ]; then
-        brew install ripgrep dust jless
+        yes | brew install ripgrep dust jless
 
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        yes | curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
         . "$HOME/.cargo/env" 
-        cargo install code2prompt
-        brew install peco
+        yes | cargo install code2prompt
+        yes | brew install peco
     fi
 
     DOT_DIR=$(dirname $(realpath $0))
-    [ $zsh == true ] && brew install zsh
-    [ $tmux == true ] && brew install tmux
+    [ $zsh == true ] && yes | brew install zsh
+    [ $tmux == true ] && yes | brew install tmux
     defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
     defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
     defaults write -g com.apple.mouse.scaling 5.0
@@ -92,28 +93,28 @@ if [ -d $ZSH ] && [ "$force" = "false" ]; then
 else
     echo " --------- INSTALLING DEPENDENCIES ⏳ ----------- "
     rm -rf $ZSH
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-    git clone https://github.com/romkatv/powerlevel10k.git \
+    yes | git clone https://github.com/romkatv/powerlevel10k.git \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
 
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+    yes | git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-    git clone https://github.com/zsh-users/zsh-autosuggestions \
+    yes | git clone https://github.com/zsh-users/zsh-autosuggestions \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
-    git clone https://github.com/zsh-users/zsh-completions \
+    yes | git clone https://github.com/zsh-users/zsh-completions \
         ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 
-    git clone https://github.com/zsh-users/zsh-history-substring-search \
+    yes | git clone https://github.com/zsh-users/zsh-history-substring-search \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
-    git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
+    yes | git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
 
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
+    yes | git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    yes | ~/.fzf/install
 
-     NO_ASK_OPENAI_API_KEY=1 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/hmirin/ask.sh/main/install.sh)"
+    yes | NO_ASK_OPENAI_API_KEY=1 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/hmirin/ask.sh/main/install.sh)"
 
     echo " --------- INSTALLED SUCCESSFULLY ✅ ----------- "
     echo " --------- NOW RUN ./deploy.sh [OPTION] -------- "
