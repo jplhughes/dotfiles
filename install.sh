@@ -93,28 +93,28 @@ if [ -d $ZSH ] && [ "$force" = "false" ]; then
 else
     echo " --------- INSTALLING DEPENDENCIES ⏳ ----------- "
     rm -rf $ZSH
-    yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-    yes | git clone https://github.com/romkatv/powerlevel10k.git \
+    git clone https://github.com/romkatv/powerlevel10k.git \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
 
-    yes | git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-    yes | git clone https://github.com/zsh-users/zsh-autosuggestions \
+    git clone https://github.com/zsh-users/zsh-autosuggestions \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
-    yes | git clone https://github.com/zsh-users/zsh-completions \
+    git clone https://github.com/zsh-users/zsh-completions \
         ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
 
-    yes | git clone https://github.com/zsh-users/zsh-history-substring-search \
+    git clone https://github.com/zsh-users/zsh-history-substring-search \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
-    yes | git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
+    git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
 
-    yes | git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    yes | ~/.fzf/install
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
 
-    yes | NO_ASK_OPENAI_API_KEY=1 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/hmirin/ask.sh/main/install.sh)"
+    NO_ASK_OPENAI_API_KEY=1 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/hmirin/ask.sh/main/install.sh)"
 
     echo " --------- INSTALLED SUCCESSFULLY ✅ ----------- "
     echo " --------- NOW RUN ./deploy.sh [OPTION] -------- "
