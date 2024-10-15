@@ -7,6 +7,7 @@ USAGE=$(cat <<-END
     OPTIONS:
         --tmux       install tmux
         --zsh        install zsh
+        --extras     install extra dependencies
 
     If OPTIONS are passed they will be installed
     with apt if on linux or brew if on OSX
@@ -24,6 +25,8 @@ while (( "$#" )); do
             zsh=true && shift ;;
         --tmux)
             tmux=true && shift ;;
+        --extras)
+            extras=true && shift ;;
         --force)
             force=true && shift ;;
         --) # end argument parsing
@@ -46,26 +49,31 @@ if [ $machine == "Linux" ]; then
     sudo apt-get update
     [ $zsh == true ] && sudo apt-get install zsh
     [ $tmux == true ] && sudo apt-get install tmux
-    sudo apt-get install ripgrep
+    
+    if [ $extras == true ]; then
+        sudo apt-get install ripgrep
 
-    curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash
-    brew install dust jless
+        curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash
+        brew install dust jless
 
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    . "$HOME/.cargo/env" 
-    cargo install code2prompt
-    brew install peco
-
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        . "$HOME/.cargo/env" 
+        cargo install code2prompt
+        brew install peco
+    fi
 
 # Installing on mac with homebrew
 elif [ $machine == "Mac" ]; then
     brew install coreutils  # Mac won't have realpath before coreutils installed
-    brew install ripgrep dust jless
 
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    . "$HOME/.cargo/env" 
-    cargo install code2prompt
-    brew install peco
+    if [ $extras == true ]; then
+        brew install ripgrep dust jless
+
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        . "$HOME/.cargo/env" 
+        cargo install code2prompt
+        brew install peco
+    fi
 
     DOT_DIR=$(dirname $(realpath $0))
     [ $zsh == true ] && brew install zsh
