@@ -1,0 +1,123 @@
+{
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 100,
+    "editor.wordWrap": "on",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "git.autofetch": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": false
+    },
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    "editor.inlineSuggest.enabled": true,
+    "notebook.output.wordWrap": true,
+    "jupyter.askForKernelRestart": false,
+    "editor.minimap.enabled": false,
+    "files.trimTrailingWhitespace": false,
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnSave": false,
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": true,
+        "plaintext": false,
+        "markdown": true
+    },
+    "jupyter.runStartupCommands": [
+        "%load_ext autoreload",
+        "%autoreload 2"
+    ],
+    "notebook.output.textLineLimit": 3000,
+    "jupyter.interactiveWindow.creationMode": "perFile",
+    "notebook.formatOnSave.enabled": true,
+    "rewrap.autoWrap.enabled": true,
+    "rewrap.wrappingColumn": 140,
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Python: Remote Attach",
+                "type": "python",
+                "request": "attach",
+                "connect": {
+                    "port": 5678,
+                    "host": "localhost"
+                },
+                "justMyCode": false,
+                "subProcess": true
+            }
+        ]
+    },
+    "mypy.runUsingActiveInterpreter": true,
+    "flake8.importStrategy": "fromEnvironment",
+    "flake8.args": [
+        "--max-line-length=140",
+        "--ignore=W503",
+        "--exclude=venv"
+    ],
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "typescript.preferences.includePackageJsonAutoImports": "on",
+    "python.analysis.autoImportCompletions": true,
+    "editor.accessibilitySupport": "off",
+    "remote.SSH.enableRemoteCommand": true,
+    "remote.SSH.path": "/Users/johnh/ssh_singularity",
+    "files.exclude": {
+        "**/.cache": true,
+        "**/.DS_Store": true,
+        "**/.git": true,
+        "**/.venv": true
+    },
+    "files.watcherExclude": {
+        "**/.venv/**": true,
+        "**/prompt_history/**": true,
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true
+    },
+    "search.exclude": {
+        "**/.cache": true,
+        "**/.venv": true
+    },
+    "jupyter.widgetScriptSources": [
+        "jsdelivr.com",
+        "unpkg.com"
+    ],
+    "github.copilot.editor.enableAutoCompletions": true,
+    "cursor.cpp.disabledLanguages": [
+        "plaintext",
+        "untitled"
+    ],
+    "python.analysis.packageIndexDepths": [
+        {
+            "name": "sklearn",
+            "depth": 2
+        },
+        {
+            "name": "matplotlib",
+            "depth": 2
+        },
+        {
+            "name": "scipy",
+            "depth": 2
+        },
+        {
+            "name": "django",
+            "depth": 2
+        },
+        {
+            "name": "flask",
+            "depth": 2
+        },
+        {
+            "name": "fastapi",
+            "depth": 2
+        },
+        {
+            "name": "inspect_ai",
+            "depth": 2
+        }
+    ]
+}
