@@ -83,3 +83,23 @@ ADD THIS FUNCTION HERE -------->
 ### iterm
 Included in this repo are the onedark and onedarker color schemes for iterm, to use these go to import under profiles > colors > color\_presets in settings. 
 
+## Docker image for runpod
+
+To build the docker image for runpod, you can run the following command:
+
+```bash
+docker build -f runpod/johnh_dev.Dockerfile -t jplhughes1/runpod-dev .
+```
+
+To test it
+
+```bash
+docker run -it -v $PWD/runpod/entrypoint.sh:/dotfiles/runpod/entrypoint.sh -e USE_ZSH=true jplhughes1/runpod-dev /bin/zsh
+```
+
+To push it to docker hub
+
+```bash
+docker push jplhughes1/runpod-dev
+```
+
