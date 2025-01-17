@@ -50,6 +50,7 @@ if [ $machine == "Linux" ]; then
     sudo apt-get update -y
     [ $zsh == true ] && sudo apt-get install -y zsh
     [ $tmux == true ] && sudo apt-get install -y tmux
+    curl -LsSf https://astral.sh/uv/install.sh | sh
     
     if [ $extras == true ]; then
         sudo apt-get install -y ripgrep
@@ -66,6 +67,7 @@ if [ $machine == "Linux" ]; then
 # Installing on mac with homebrew
 elif [ $machine == "Mac" ]; then
     yes | brew install coreutils  # Mac won't have realpath before coreutils installed
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 
     if [ $extras == true ]; then
         yes | brew install ripgrep dust jless
@@ -112,11 +114,15 @@ else
     git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
 
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
-
-    NO_ASK_OPENAI_API_KEY=1 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/hmirin/ask.sh/main/install.sh)"
+    yes | ~/.fzf/install
 
     echo " --------- INSTALLED SUCCESSFULLY ✅ ----------- "
     echo " --------- NOW RUN ./deploy.sh [OPTION] -------- "
 fi
 
+if [ $extras == true ]; then
+    echo " --------- INSTALLING EXTRAS ⏳ ----------- "
+    if command -v cargo &> /dev/null; then
+        NO_ASK_OPENAI_API_KEY=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/hmirin/ask.sh/main/install.sh)"
+    fi
+fi
