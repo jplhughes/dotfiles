@@ -2,7 +2,7 @@
 
 # 1) Setup linux dependencies
 su -c 'apt-get update && apt-get install sudo'
-sudo apt-get install less nano htop ncdu
+sudo apt-get install less nano htop ncdu nvtop lsof
 
 # 2) Setup virtual environment
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -23,4 +23,4 @@ chsh -s /usr/bin/zsh
 cd ..
 
 # 4) Setup github
-./scripts/setup_github.sh "jpl.hughes@btinternet.com" "John Hughes"
+echo ./scripts/setup_github.sh "jpl.hughes@btinternet.com" "John Hughes"
