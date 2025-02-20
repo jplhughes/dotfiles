@@ -2,7 +2,7 @@
 
 # 1) Setup linux dependencies
 su -c 'apt-get update && apt-get install sudo'
-sudo apt-get install less nano htop ncdu nvtop lsof
+sudo apt-get install less nano htop ncdu nvtop lsof rsync btop jq
 
 # 2) Setup virtual environment
 curl -LsSf https://astral.sh/uv/install.sh | sh
