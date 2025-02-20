@@ -50,6 +50,7 @@ if [ $machine == "Linux" ]; then
     sudo apt-get update -y
     [ $zsh == true ] && sudo apt-get install -y zsh
     [ $tmux == true ] && sudo apt-get install -y tmux
+    sudo apt-get install -y less nano htop ncdu nvtop lsof rsync btop jq
     curl -LsSf https://astral.sh/uv/install.sh | sh
     
     if [ $extras == true ]; then
@@ -62,11 +63,14 @@ if [ $machine == "Linux" ]; then
         . "$HOME/.cargo/env" 
         yes | cargo install code2prompt
         yes | brew install peco
+
+        sudo apt-get install -y npm
+        yes | npm i -g shell-ask
     fi
 
 # Installing on mac with homebrew
 elif [ $machine == "Mac" ]; then
-    yes | brew install coreutils  # Mac won't have realpath before coreutils installed
+    yes | brew install coreutils ncdu htop ncdu rsync btop jq  # Mac won't have realpath before coreutils installed
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
     if [ $extras == true ]; then
