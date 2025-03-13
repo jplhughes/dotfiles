@@ -172,3 +172,25 @@ alias sv="source .venv/bin/activate"
 alias de="deactivate"
 alias ma="micromamba activate"
 alias md="micromamba deactivate"
+
+# -------------------------------------------------------------------
+# Slurm
+# -------------------------------------------------------------------
+alias q='squeue'
+alias qw='watch squeue'
+alias qq='squeue -u $(whoami)'
+alias qtop='scontrol top'
+alias qdel='scancel'
+alias qnode='sinfo -Nle'                    # Detailed node status
+alias qinfo='sinfo'
+alias qhost='scontrol show nodes'
+# Submit a quick GPU test job
+alias qtest='sbatch --gres=gpu:1 --wrap="hostname; nvidia-smi"'
+alias qlogin='srun --gres=gpu:1 --pty $SHELL'
+# Cancel all your queued jobs
+alias qclear='scancel -u $(whoami)'
+# Functions to submit quick jobs with varying GPUs
+# Usage: qrun 4 script.sh → submits 'script.sh' with 4 GPUs
+qrun() {
+  sbatch --gres=gpu:"$1" "$2"
+}

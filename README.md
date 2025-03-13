@@ -20,8 +20,8 @@ Deploy (e.g. source aliases for .zshrc, apply oh-my-zsh settings etc..)
 ```bash
 # Remote linux machine
 ./deploy.sh  
-# Local mac machine
-./deploy.sh --local   
+# Deploy with extra aliases (useful for remote machines where you want specific aliases)
+./deploy.sh --aliases=speechmatics
 # Include simple vimrc 
 ./deploy.sh --vim
 ```
@@ -88,7 +88,13 @@ Included in this repo are the onedark and onedarker color schemes for iterm, to 
 To build the docker image for runpod, you can run the following command:
 
 ```bash
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 docker build -f runpod/johnh_dev.Dockerfile -t jplhughes1/runpod-dev .
+
+# Build with buildx
+docker buildx create --name mybuilder --use
+docker buildx build --platform linux/amd64 -f runpod/johnh_dev.Dockerfile -t jplhughes1/runpod-dev . --push
+
 ```
 
 To test it

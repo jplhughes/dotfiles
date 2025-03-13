@@ -1,28 +1,28 @@
 #!/bin/bash
 set -euo pipefail
 USAGE=$(cat <<-END
-    Usage: ./deploy.sh [OPTIONS], eg. ./deploy.sh --local --vim
+    Usage: ./deploy.sh [OPTIONS] [--aliases <alias1,alias2,...>], eg. ./deploy.sh --vim --aliases=speechmatics,custom
     Creates ~/.zshrc and ~/.tmux.conf with location
     specific config
 
     OPTIONS:
-        --local                 deploy local config only, only common aliases are sourced
         --vim                   deploy very simple vimrc config 
+        --aliases               specify additional alias scripts to source in .zshrc, separated by commas
 END
 )
 
 export DOT_DIR=$(dirname $(realpath $0))
 
-LOC="remote"
 VIM="false"
+ALIASES=()
 while (( "$#" )); do
     case "$1" in
         -h|--help)
             echo "$USAGE" && exit 1 ;;
-        --local)
-            LOC="local" && shift ;;
         --vim)
             VIM="true" && shift ;;
+        --aliases=*)
+            IFS=',' read -r -a ALIASES <<< "${1#*=}" && shift ;;
         --) # end argument parsing
             shift && break ;;
         -*|--*=) # unsupported flags
@@ -30,8 +30,8 @@ while (( "$#" )); do
     esac
 done
 
-
-echo "deploying on $LOC machine..."
+echo "deploying on machine..."
+echo "using extra aliases: ${ALIASES[@]}"
 
 # Tmux setup
 echo "source $DOT_DIR/config/tmux.conf" > $HOME/.tmux.conf
@@ -44,8 +44,11 @@ fi
 
 # zshrc setup
 echo "source $DOT_DIR/config/zshrc.sh" > $HOME/.zshrc
-# conifg/aliases_speechmatics.sh adds remote specific aliases and cmds
-[ $LOC = 'remote' ] &&  echo \
-    "source $DOT_DIR/config/aliases_speechmatics.sh" >> $HOME/.zshrc
+# Append additional alias scripts if specified
+if [ -n "${ALIASES+x}" ]; then
+    for alias in "${ALIASES[@]}"; do
+        echo "source $DOT_DIR/config/aliases_${alias}.sh" >> $HOME/.zshrc
+    done
+fi
 
 zsh
