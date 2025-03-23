@@ -176,12 +176,12 @@ alias md="micromamba deactivate"
 # -------------------------------------------------------------------
 # Slurm
 # -------------------------------------------------------------------
-alias q='squeue'
-alias qw='watch squeue'
-alias qq='squeue -u $(whoami)'
+alias q='squeue -o "%.18i %.9P %.8j %.8u %.2t %.10M %.6D %N %.10b"'
+alias qw='watch squeue -o "%.18i %.9P %.8j %.8u %.2t %.10M %.6D %N %.10b"'
+alias qq='squeue -u $(whoami) -o "%.18i %.9P %.8j %.8u %.2t %.10M %.6D %N %.10b"'
 alias qtop='scontrol top'
 alias qdel='scancel'
-alias qnode='sinfo -Nle'                    # Detailed node status
+alias qnode='sinfo -Ne --Format=NodeHost,CPUsState,Gres,GresUsed'
 alias qinfo='sinfo'
 alias qhost='scontrol show nodes'
 # Submit a quick GPU test job

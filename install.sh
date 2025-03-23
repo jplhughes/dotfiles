@@ -51,7 +51,7 @@ if [ $machine == "Linux" ]; then
     sudo apt-get update -y
     [ $zsh == true ] && sudo apt-get install -y zsh
     [ $tmux == true ] && sudo apt-get install -y tmux
-    sudo apt-get install -y less nano htop ncdu nvtop lsof rsync btop jq
+    sudo apt-get install -y less nano htop ncdu nvtop lsof rsync jq
     curl -LsSf https://astral.sh/uv/install.sh | sh
     
     if [ $extras == true ]; then
