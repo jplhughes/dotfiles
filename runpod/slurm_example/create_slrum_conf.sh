@@ -11,9 +11,6 @@ HOSTNAME2=$2
 HOSTNAME1_IP=$3
 HOSTNAME2_IP=$4
 
-echo "$HOSTNAME1_IP $HOSTNAME1" | sudo tee -a /etc/hosts
-echo "$HOSTNAME2_IP $HOSTNAME2" | sudo tee -a /etc/hosts
-
 num_cpus=$(nproc --all)
 num_sockets=$(lscpu | grep "Socket(s):" | awk '{print $2}')
 num_cores_per_socket=$(lscpu | grep "Core(s) per socket:" | awk '{print $4}')

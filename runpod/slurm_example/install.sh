@@ -1,16 +1,16 @@
 #!/bin/bash
 
-[ -z "$1" ] && echo "Error: munge_key_str is not set." >&2 && exit 1
-[ -z "$2" ] && echo "Error: hostname1 is not set." >&2 && exit 1
-[ -z "$3" ] && echo "Error: hostname2 is not set." >&2 && exit 1
-[ -z "$4" ] && echo "Error: hostname1_ip is not set." >&2 && exit 1
-[ -z "$5" ] && echo "Error: hostname2_ip is not set." >&2 && exit 1
+[ -z "$1" ] && echo "Error: MUNGE_KEY_STR is not set." >&2 && exit 1
+[ -z "$2" ] && echo "Error: HOSTNAME1 is not set." >&2 && exit 1
+[ -z "$3" ] && echo "Error: HOSTNAME2 is not set." >&2 && exit 1
+[ -z "$4" ] && echo "Error: HOSTNAME1_IP is not set." >&2 && exit 1
+[ -z "$5" ] && echo "Error: HOSTNAME2_IP is not set." >&2 && exit 1
 
-munge_key_str=$1
-hostname1=$2
-hostname2=$3
-hostname1_ip=$4
-hostname2_ip=$5
+MUNGE_KEY_STR=$1
+HOSTNAME1=$2
+HOSTNAME2=$3
+HOSTNAME1_IP=$4
+HOSTNAME2_IP=$5
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
@@ -23,6 +23,15 @@ sudo locale-gen en_GB.UTF-8
 sudo update-locale LANG=en_GB.UTF-8
 export LANG=en_GB.UTF-8
 export LC_ALL=en_GB.UTF-8
+
+current_hostname=$(hostname)
+if [ "$current_hostname" == "$HOSTNAME1" ]; then
+    echo "$HOSTNAME2_IP $HOSTNAME2" | sudo tee -a /etc/hosts
+elif [ "$current_hostname" == "$HOSTNAME2" ]; then
+    echo "$HOSTNAME1_IP $HOSTNAME1" | sudo tee -a /etc/hosts
+else
+    echo "Error: current hostname is not $HOSTNAME1 or $HOSTNAME2" >&2 && exit 1
+fi
 
 # ================================================
 # munge setup
@@ -43,7 +52,7 @@ for dir in /var/log/munge /var/lib/munge /etc/munge /var/run/munge /run/munge; d
     sudo chmod -R 755 $dir
 done
 
-echo -n "$munge_key_str" | sha256sum | awk '{print $1}' > /etc/munge/munge.key
+echo -n "$MUNGE_KEY_STR" | sha256sum | awk '{print $1}' > /etc/munge/munge.key
 sudo chmod 400 /etc/munge/munge.key
 sudo chown munge:munge /etc/munge/munge.key
 
@@ -74,8 +83,8 @@ for dir in /etc/slurm /etc/slurm-llnl /var/spool/slurm /var/log/slurm-llnl /var/
 done
 
 # Create slurm.conf
-bash $SCRIPT_DIR/create_slrum_conf.sh $hostname1 $hostname2 $hostname1_ip $hostname2_ip > /etc/slurm-llnl/slurm.conf
-bash $SCRIPT_DIR/create_gres_conf.sh $(hostname) > /etc/slurm-llnl/gres.conf
+bash $SCRIPT_DIR/create_slrum_conf.sh $HOSTNAME1 $HOSTNAME2 $HOSTNAME1_IP $HOSTNAME2_IP > /etc/slurm-llnl/slurm.conf
+bash $SCRIPT_DIR/create_gres_conf.sh $current_hostname > /etc/slurm-llnl/gres.conf
 sudo ln -s /etc/slurm-llnl/slurm.conf /etc/slurm/slurm.conf
 sudo ln -s /etc/slurm-llnl/gres.conf /etc/slurm/gres.conf
 
