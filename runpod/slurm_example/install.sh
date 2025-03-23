@@ -1,4 +1,17 @@
 #!/bin/bash
+
+[ -z "$1" ] && echo "Error: munge_key_str is not set." >&2 && exit 1
+[ -z "$2" ] && echo "Error: hostname1 is not set." >&2 && exit 1
+[ -z "$3" ] && echo "Error: hostname2 is not set." >&2 && exit 1
+[ -z "$4" ] && echo "Error: hostname1_ip is not set." >&2 && exit 1
+[ -z "$5" ] && echo "Error: hostname2_ip is not set." >&2 && exit 1
+
+munge_key_str=$1
+hostname1=$2
+hostname2=$3
+hostname1_ip=$4
+hostname2_ip=$5
+
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 # Install slurm
@@ -30,6 +43,10 @@ for dir in /var/log/munge /var/lib/munge /etc/munge /var/run/munge /run/munge; d
     sudo chmod -R 755 $dir
 done
 
+echo -n "$munge_key_str" | sha256sum | awk '{print $1}' > /etc/munge/munge.key
+sudo chmod 400 /etc/munge/munge.key
+sudo chown munge:munge /etc/munge/munge.key
+
 # Start munge service
 sudo /usr/sbin/munged --force
 
@@ -57,8 +74,8 @@ for dir in /etc/slurm /etc/slurm-llnl /var/spool/slurm /var/log/slurm-llnl /var/
 done
 
 # Create slurm.conf
-cp $SCRIPT_DIR/slurm.conf /etc/slurm-llnl/slurm.conf
-cp $SCRIPT_DIR/gres.conf /etc/slurm-llnl/gres.conf
+bash $SCRIPT_DIR/create_slrum_conf.sh $hostname1 $hostname2 $hostname1_ip $hostname2_ip > /etc/slurm-llnl/slurm.conf
+bash $SCRIPT_DIR/create_gres_conf.sh $(hostname) > /etc/slurm-llnl/gres.conf
 sudo ln -s /etc/slurm-llnl/slurm.conf /etc/slurm/slurm.conf
 sudo ln -s /etc/slurm-llnl/gres.conf /etc/slurm/gres.conf
 

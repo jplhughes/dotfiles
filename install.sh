@@ -42,6 +42,7 @@ case "${operating_system}" in
     Linux*)     machine=Linux;;
     Darwin*)    machine=Mac;;
     *)          machine="UNKNOWN:${operating_system}"
+                echo "Error: Unsupported operating system ${operating_system}" && exit 1
 esac
 
 # Installing on linux with apt
