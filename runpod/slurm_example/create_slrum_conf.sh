@@ -1,15 +1,16 @@
 #!/bin/bash
 
 # Check if both hostnames are provided
-[ -z "$1" ] && echo "Error: hostname1 is not set." >&2 && exit 1
-[ -z "$2" ] && echo "Error: hostname2 is not set." >&2 && exit 1
-[ -z "$3" ] && echo "Error: hostname1_ip is not set." >&2 && exit 1
-[ -z "$4" ] && echo "Error: hostname2_ip is not set." >&2 && exit 1
+[ -z "$1" ] && echo "Error: server_hostname is not set." >&2 && exit 1
 
-HOSTNAME1=$1
-HOSTNAME2=$2
-HOSTNAME1_IP=$3
-HOSTNAME2_IP=$4
+SERVER_HOSTNAME=$1
+CLIENT_HOSTNAMES=${2:-""} # list of client hostnames separated by commas
+
+if [ -n "$CLIENT_HOSTNAMES" ]; then
+    IFS=',' read -ra CLIENT_HOSTNAMES_ARR <<< "$CLIENT_HOSTNAMES"
+else
+    CLIENT_HOSTNAMES_ARR=()
+fi
 
 num_cpus=$(nproc --all)
 num_sockets=$(lscpu | grep "Socket(s):" | awk '{print $2}')
@@ -17,9 +18,18 @@ num_cores_per_socket=$(lscpu | grep "Core(s) per socket:" | awk '{print $4}')
 num_threads_per_core=$(lscpu | grep "Thread(s) per core:" | awk '{print $4}')
 total_memory=$(free -m | grep Mem: | awk '{print $2}')
 
+NODE_INFO="NodeName=$SERVER_HOSTNAME CPUs=$num_cpus Boards=$num_sockets Sockets=$num_sockets CoresPerSocket=$num_cores_per_socket ThreadsPerCore=$num_threads_per_core RealMemory=$total_memory Gres=gpu:8 State=UNKNOWN
+"
+NODES=$SERVER_HOSTNAME
+for client_hostname in "${CLIENT_HOSTNAMES_ARR[@]}"; do
+    NODES+=",$client_hostname"
+    NODE_INFO+="NodeName=$client_hostname CPUs=$num_cpus Boards=$num_sockets Sockets=$num_sockets CoresPerSocket=$num_cores_per_socket ThreadsPerCore=$num_threads_per_core RealMemory=$total_memory Gres=gpu:8 State=UNKNOWN
+"
+done
+
 cat <<EOL
 ClusterName=localcluster
-SlurmctldHost=$HOSTNAME1
+SlurmctldHost=$SERVER_HOSTNAME
 MpiDefault=none
 ProctrackType=proctrack/linuxproc
 ReturnToService=2
@@ -56,8 +66,8 @@ SlurmdDebug=info
 SlurmdLogFile=/var/log/slurm-llnl/slurmd.log
 
 GresTypes=gpu
-NodeName=$HOSTNAME1 CPUs=$num_cpus Boards=$num_sockets Sockets=$num_sockets CoresPerSocket=$num_cores_per_socket ThreadsPerCore=$num_threads_per_core RealMemory=$total_memory Gres=gpu:8 State=UNKNOWN
-NodeName=$HOSTNAME2 CPUs=$num_cpus Boards=$num_sockets Sockets=$num_sockets CoresPerSocket=$num_cores_per_socket ThreadsPerCore=$num_threads_per_core RealMemory=$total_memory Gres=gpu:8 State=UNKNOWN
 
-PartitionName=gpupart Nodes=$HOSTNAME1,$HOSTNAME2 Default=YES MaxTime=INFINITE State=UP
+$NODE_INFO
+
+PartitionName=gpupart Nodes=$NODES Default=YES MaxTime=INFINITE State=UP
 EOL
