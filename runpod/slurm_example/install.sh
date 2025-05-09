@@ -1,16 +1,14 @@
 #!/bin/bash
 
 [ -z "$1" ] && echo "Error: MUNGE_KEY_STR is not set." >&2 && exit 1
-[ -z "$2" ] && echo "Error: HOSTNAME1 is not set." >&2 && exit 1
-[ -z "$3" ] && echo "Error: HOSTNAME2 is not set." >&2 && exit 1
-[ -z "$4" ] && echo "Error: HOSTNAME1_IP is not set." >&2 && exit 1
-[ -z "$5" ] && echo "Error: HOSTNAME2_IP is not set." >&2 && exit 1
+[ -z "$2" ] && echo "Error: SERVER_HOSTNAME is not set." >&2 && exit 1
+[ -z "$3" ] && echo "Error: SERVER_HOSTNAME_IP is not set." >&2 && exit 1
 
 MUNGE_KEY_STR=$1
-HOSTNAME1=$2
-HOSTNAME2=$3
-HOSTNAME1_IP=$4
-HOSTNAME2_IP=$5
+SERVER_HOSTNAME=$2
+SERVER_HOSTNAME_IP=$3
+CLIENT_HOSTNAMES=${4:-""} # list of client hostnames separated by commas
+CLIENT_HOSTNAMES_IP=${5:-""} # list of client hostnames separated by commas
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
@@ -25,13 +23,30 @@ export LANG=en_GB.UTF-8
 export LC_ALL=en_GB.UTF-8
 
 current_hostname=$(hostname)
-if [ "$current_hostname" == "$HOSTNAME1" ]; then
-    echo "$HOSTNAME2_IP $HOSTNAME2" | sudo tee -a /etc/hosts
-elif [ "$current_hostname" == "$HOSTNAME2" ]; then
-    echo "$HOSTNAME1_IP $HOSTNAME1" | sudo tee -a /etc/hosts
+# Convert comma-separated lists to arrays
+if [ -n "$CLIENT_HOSTNAMES" ]; then
+    IFS=',' read -ra CLIENT_HOSTNAMES_ARR <<< "$CLIENT_HOSTNAMES"
 else
-    echo "Error: current hostname is not $HOSTNAME1 or $HOSTNAME2" >&2 && exit 1
+    CLIENT_HOSTNAMES_ARR=()
 fi
+
+if [ -n "$CLIENT_HOSTNAMES_IP" ]; then
+    IFS=',' read -ra CLIENT_HOSTNAMES_IP_ARR <<< "$CLIENT_HOSTNAMES_IP"
+else
+    CLIENT_HOSTNAMES_IP_ARR=()
+fi
+
+# Add server hostname/IP to hosts file if not already present
+if ! grep -q "$SERVER_HOSTNAME" /etc/hosts; then
+    echo "$SERVER_HOSTNAME_IP $SERVER_HOSTNAME" | sudo tee -a /etc/hosts
+fi
+
+# Add all client hostnames/IPs to hosts file if not already present
+for ((i=0; i<${#CLIENT_HOSTNAMES_ARR[@]}; i++)); do
+    if ! grep -q "${CLIENT_HOSTNAMES_ARR[$i]}" /etc/hosts; then
+        echo "${CLIENT_HOSTNAMES_IP_ARR[$i]} ${CLIENT_HOSTNAMES_ARR[$i]}" | sudo tee -a /etc/hosts
+    fi
+done
 
 # ================================================
 # munge setup
@@ -83,7 +98,7 @@ for dir in /etc/slurm /etc/slurm-llnl /var/spool/slurm /var/log/slurm-llnl /var/
 done
 
 # Create slurm.conf
-bash $SCRIPT_DIR/create_slrum_conf.sh $HOSTNAME1 $HOSTNAME2 $HOSTNAME1_IP $HOSTNAME2_IP > /etc/slurm-llnl/slurm.conf
+bash $SCRIPT_DIR/create_slrum_conf.sh $SERVER_HOSTNAME $CLIENT_HOSTNAMES > /etc/slurm-llnl/slurm.conf
 bash $SCRIPT_DIR/create_gres_conf.sh $current_hostname > /etc/slurm-llnl/gres.conf
 sudo ln -s /etc/slurm-llnl/slurm.conf /etc/slurm/slurm.conf
 sudo ln -s /etc/slurm-llnl/gres.conf /etc/slurm/gres.conf
