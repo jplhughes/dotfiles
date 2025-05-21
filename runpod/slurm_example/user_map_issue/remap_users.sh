@@ -40,17 +40,51 @@ else
     groupmod -g "$GROUP_GID" "$GROUP_NAME"
 fi
 
+echo "First pass: Moving users and their groups to temporary IDs..."
+temp_offset=3000
 for user in "${!user_uid_map[@]}"; do
-    uid=${user_uid_map[$user]}
-
     if id "$user" &>/dev/null; then
-        # Update existing user
-        usermod -u "$uid" -g "$GROUP_GID" "$user"
-        sudo chown -R "$uid:$GROUP_GID" "/home/$user"
-        sudo chgrp -R "$GROUP_GID" "/home/$user"
+        temp_id=$((temp_offset))
+        echo "Moving $user to temporary UID $temp_id"
+        usermod -u "$temp_id" "$user"
+        
+        if getent group "$user" &>/dev/null; then
+            echo "Moving group $user to temporary GID $temp_id"
+            groupmod -g "$temp_id" "$user"
+        fi
+        
+        ((temp_offset++))
     else
         echo "User $user not found"
     fi
-
-    usermod -aG sudo "$user"
 done
+
+# Second pass: Set the final target UIDs and GIDs
+echo "Second pass: Setting target UIDs and GIDs..."
+for user in "${!user_uid_map[@]}"; do
+    if id "$user" &>/dev/null; then
+        uid=${user_uid_map[$user]}
+        echo "Setting $user to target UID $uid and GID $GROUP_GID"
+        
+        # Change user's primary group to the common group first
+        usermod -g "$GROUP_GID" "$user"
+        
+        # Update the user's UID
+        usermod -u "$uid" "$user"
+        
+        # If user has a corresponding group, update its GID to match UID
+        if getent group "$user" &>/dev/null; then
+            echo "Setting group $user to GID $uid"
+            groupmod -g "$uid" "$user"
+        fi
+        
+        Update ownership of home directory
+        sudo chown -R "$uid:$GROUP_GID" "/home/$user"
+        sudo chgrp -R "$GROUP_GID" "/home/$user"
+        
+        Add to sudo group
+        usermod -aG sudo "$user"
+    fi
+done
+
+echo "User and group remapping completed"
